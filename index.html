@@ -15,7 +15,6 @@
         }
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:var(--bg-dark);color:var(--text-primary);line-height:1.6;min-height:100vh}
-
         @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
         @keyframes slideInRight{from{opacity:0;transform:translateX(50px)}to{opacity:1;transform:translateX(0)}}
         @keyframes spin{to{transform:rotate(360deg)}}
@@ -40,7 +39,7 @@
         .btn-outline:hover{border-color:var(--primary);color:var(--primary-light)}
         .btn-sm{padding:6px 12px;font-size:12px}
         .btn-lg{padding:15px 30px;font-size:16px}
-        .btn-xl{padding:20px 40px;font-size:20px;border-radius:16px}
+        .btn-xl{padding:20px 50px;font-size:22px;border-radius:16px}
         .btn-danger{background:var(--error)}
         .btn-warning{background:var(--warning);color:#1a1a1a}
         .btn-success{background:var(--success)}
@@ -97,6 +96,7 @@
         .badge{padding:3px 10px;border-radius:20px;font-size:10px;font-weight:600;display:inline-block}
         .badge-success{background:rgba(72,187,120,.2);color:var(--success)}
         .badge-danger{background:rgba(252,129,129,.2);color:var(--error)}
+        .badge-warning{background:rgba(246,173,85,.2);color:var(--warning)}
         .badge-info{background:rgba(66,153,225,.2);color:#4299E1}
 
         .projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:15px}
@@ -106,21 +106,20 @@
         .project-logo{width:42px;height:42px;border-radius:8px;background:var(--gradient);display:flex;align-items:center;justify-content:center;font-size:18px}
         .project-stats{display:flex;gap:15px;margin-bottom:12px}
         .project-actions{display:flex;gap:6px;justify-content:flex-end;flex-wrap:wrap}
-        .checkpoint-item{background:var(--bg-input);padding:12px 15px;border-radius:8px;border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-
         .link-box{background:var(--bg-input);padding:15px;border-radius:8px;border:2px dashed var(--primary);margin:10px 0;word-break:break-all;font-family:monospace;font-size:13px;color:var(--primary-light);display:flex;align-items:center;justify-content:space-between;gap:10px}
-        .lua-code{background:#1a1a1a;color:#48BB78;padding:20px;border-radius:8px;font-family:'Courier New',monospace;font-size:12px;white-space:pre-wrap;border:1px solid var(--border);max-height:400px;overflow-y:auto}
 
-        /* GETKEY PAGE - SIMPLES */
         .getkey-page{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
         .getkey-box{background:var(--bg-card);border-radius:20px;border:2px solid var(--border);padding:40px;text-align:center;max-width:500px;width:100%;animation:fadeIn .5s ease}
         .getkey-box .icon{font-size:60px;color:var(--primary);margin-bottom:20px}
         .getkey-box h1{font-size:28px;margin-bottom:10px}
         .getkey-box .hwid-badge{background:var(--bg-input);padding:8px 16px;border-radius:20px;display:inline-block;font-family:monospace;font-size:14px;color:var(--primary-light);margin:15px 0}
+        .getkey-box .hwid-badge.mismatch{color:var(--error);border:1px solid var(--error);animation:shake .5s ease}
         .getkey-box .countdown-circle{width:100px;height:100px;border-radius:50%;border:4px solid var(--primary);display:flex;align-items:center;justify-content:center;margin:20px auto;font-size:36px;font-weight:800;animation:countdownPulse 1s infinite}
         .getkey-box .key-result{background:var(--bg-input);padding:20px;border-radius:12px;border:2px solid var(--success);margin:20px 0;animation:pulse 1s infinite}
         .getkey-box .key-result code{font-size:28px;font-weight:800;color:var(--success);letter-spacing:2px}
-        .getkey-box .warning-text{color:var(--warning);font-size:13px;margin-top:15px}
+        .getkey-box .expire-info{color:var(--warning);font-size:12px;margin-top:10px}
+        .getkey-box .error-box{background:rgba(252,129,129,.1);border:2px solid var(--error);border-radius:12px;padding:20px;margin:15px 0}
+        .getkey-box .blocked-text{color:var(--error);font-weight:700;font-size:16px}
 
         .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);z-index:2000;align-items:center;justify-content:center}
         .modal.show{display:flex}
@@ -138,39 +137,19 @@
 
         .loading-spinner{width:18px;height:18px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;display:inline-block}
         .hidden{display:none!important}
-        .flex{display:flex}
-        .gap-5{gap:5px}.gap-10{gap:10px}
-        .items-center{align-items:center}
-        .justify-between{justify-content:space-between}
-        .w-full{width:100%}
-        .text-center{text-align:center}
+        .flex{display:flex}.gap-5{gap:5px}.gap-10{gap:10px}.items-center{align-items:center}.justify-between{justify-content:space-between}
+        .w-full{width:100%}.text-center{text-align:center}
         .mt-10{margin-top:10px}.mt-20{margin-top:20px}.mb-10{margin-bottom:10px}.mb-20{margin-bottom:20px}
-        .text-sm{font-size:13px}.text-xs{font-size:11px}
-        .text-muted{color:var(--text-muted)}
-        .text-error{color:var(--error)}
-        .text-success{color:var(--success)}
+        .text-sm{font-size:13px}.text-xs{font-size:11px}.text-muted{color:var(--text-muted)}.text-error{color:var(--error)}.text-success{color:var(--success)}
 
-        ::-webkit-scrollbar{width:6px}
-        ::-webkit-scrollbar-track{background:var(--bg-dark)}
-        ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+        ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg-dark)}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
 
-        @media(max-width:768px){
-            .sidebar{transform:translateX(-100%)}
-            .sidebar.open{transform:translateX(0)}
-            .main-content{margin-left:0}
-            .hero h1{font-size:28px}
-            .stats-grid{grid-template-columns:1fr}
-            .nav-menu{display:none}
-            .mobile-menu-btn{display:block!important}
-            .getkey-box{padding:25px}
-            .getkey-box .key-result code{font-size:20px}
-        }
+        @media(max-width:768px){.sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}.main-content{margin-left:0}.hero h1{font-size:28px}.stats-grid{grid-template-columns:1fr}.nav-menu{display:none}.mobile-menu-btn{display:block!important}.getkey-box{padding:25px}.getkey-box .key-result code{font-size:20px}}
         .mobile-menu-btn{display:none;background:0 0;border:none;color:var(--text-primary);font-size:22px;cursor:pointer}
     </style>
 </head>
 <body>
 
-    <!-- NAVBAR -->
     <nav class="navbar" id="mainNav">
         <div class="container"><div class="nav-content">
             <a class="nav-brand" onclick="navigateTo('home')"><i class="fas fa-shield-alt"></i><span>OhKeyGG</span></a>
@@ -182,26 +161,23 @@
         </div></div>
     </nav>
 
-    <!-- APP -->
     <div id="app">
-        <!-- HOME -->
         <div id="page-home" class="page-section active">
             <section class="hero"><div class="container">
                 <h1>Sistema de Keys com HWID</h1>
-                <p>Linkvertise → Redireciona → Botão GET KEY → Key vinculada ao HWID. Se compartilhar = BLOQUEADO.</p>
+                <p>Linkvertise → Redireciona com HWID na URL → GET KEY → Key 24h vinculada. Se compartilhar = BLOQUEADO.</p>
                 <div class="hero-buttons"><a onclick="navigateTo('register')" class="btn btn-primary btn-lg">Teste Grátis</a><a onclick="navigateTo('login')" class="btn btn-outline btn-lg">Entrar</a></div>
             </div></section>
             <section class="features"><div class="container"><h2 class="section-title">Como Funciona</h2>
                 <div class="features-grid">
                     <div class="feature-card"><i class="fas fa-link"></i><h3>1. Linkvertise</h3><p>Usuário completa verificação</p></div>
-                    <div class="feature-card"><i class="fas fa-redo"></i><h3>2. Redireciona</h3><p>Volta para página da key</p></div>
-                    <div class="feature-card"><i class="fas fa-hand-pointer"></i><h3>3. GET KEY</h3><p>Um botão, 5 segundos</p></div>
-                    <div class="feature-card"><i class="fas fa-shield-alt"></i><h3>4. Anti-Share</h3><p>HWID vinculado, sem compartilhar</p></div>
+                    <div class="feature-card"><i class="fas fa-redo"></i><h3>2. Redireciona</h3><p>HWID aparece na URL</p></div>
+                    <div class="feature-card"><i class="fas fa-hand-pointer"></i><h3>3. GET KEY</h3><p>Key válida por 24 horas</p></div>
+                    <div class="feature-card"><i class="fas fa-shield-alt"></i><h3>4. Anti-Share</h3><p>HWID + IP vinculados</p></div>
                 </div>
             </div></section>
         </div>
 
-        <!-- LOGIN -->
         <div id="page-login" class="page-section"><div class="auth-container"><div class="auth-card">
             <div class="auth-header"><i class="fas fa-key"></i><h2>Entrar</h2></div>
             <div class="form-group"><label>Email</label><input type="email" id="loginEmail"></div>
@@ -210,7 +186,6 @@
             <div class="form-footer">Não tem conta? <a onclick="navigateTo('register')">Criar</a></div>
         </div></div></div>
 
-        <!-- REGISTER -->
         <div id="page-register" class="page-section"><div class="auth-container"><div class="auth-card">
             <div class="auth-header"><i class="fas fa-user-plus"></i><h2>Criar Conta</h2></div>
             <div class="form-group"><label>Nome</label><input type="text" id="regUsername"></div>
@@ -220,7 +195,6 @@
             <div class="form-footer">Já tem conta? <a onclick="navigateTo('login')">Entrar</a></div>
         </div></div></div>
 
-        <!-- DASHBOARD -->
         <div id="page-dashboard" class="page-section"><div class="dashboard-layout">
             <aside class="sidebar" id="sidebar"><div class="sidebar-nav">
                 <button class="sidebar-link active" onclick="switchTab('home',this)"><i class="fas fa-home"></i> Home</button>
@@ -233,51 +207,38 @@
             <main class="main-content" id="dashboardContent"></main>
         </div></div>
 
-        <!-- GETKEY PAGE -->
         <div id="page-getkey" class="page-section">
             <div class="getkey-page"><div class="getkey-box" id="getkeyBox"></div></div>
         </div>
     </div>
 
-    <!-- MODALS -->
     <div id="projectModal" class="modal"><div class="modal-content">
         <div class="modal-header"><h3 id="projectModalTitle">Novo Projeto</h3><button class="modal-close" onclick="closeModal('projectModal')">&times;</button></div>
         <input type="hidden" id="projectId">
         <div class="form-group"><label>Nome</label><input type="text" id="projectName"></div>
         <div class="form-group"><label>Descrição</label><textarea id="projectDescription" rows="3"></textarea></div>
-        <div class="form-group"><label>URL de Retorno do Linkvertise</label><input type="text" id="linkvertiseReturnUrl" placeholder="https://cf-tp.github.io/ohkeygg/#getkey?id=PROJETO_ID" readonly></div>
+        <div class="form-group"><label>URL Retorno Linkvertise</label><input type="text" id="linkvertiseUrl" readonly></div>
         <div class="modal-actions"><button class="btn btn-outline" onclick="closeModal('projectModal')">Cancelar</button><button class="btn btn-primary" onclick="saveProject()">Salvar</button></div>
     </div></div>
 
-    <div id="keyModal" class="modal"><div class="modal-content">
-        <div class="modal-header"><h3>Gerar Key Manual</h3><button class="modal-close" onclick="closeModal('keyModal')">&times;</button></div>
-        <div class="form-group"><label>Projeto</label><select id="keyProject"></select></div>
-        <div class="form-group"><label>Tipo</label><select id="keyType"><option value="permanent">Permanente</option><option value="hours">Horas</option><option value="days">Dias</option></select></div>
-        <div class="modal-actions"><button class="btn btn-outline" onclick="closeModal('keyModal')">Cancelar</button><button class="btn btn-primary" onclick="generateKey()">Gerar</button></div>
-    </div></div>
-
     <script>
-        // ============================================
-        // OhKeyGG - SISTEMA FINAL SIMPLES
-        // Linkvertise → Redireciona → Botão GET KEY → Key vinculada ao HWID
-        // ============================================
         const BASE = 'https://cf-tp.github.io/ohkeygg';
+        const KEY_DURATION = 24 * 60 * 60 * 1000; // 24 horas
 
         let currentUser = null;
         let token = localStorage.getItem('ohkeygg_token');
-
-        // DADOS
         let projects = JSON.parse(localStorage.getItem('ohkeygg_projects') || '[]');
         let keys = JSON.parse(localStorage.getItem('ohkeygg_keys') || '[]');
         let registeredUsers = JSON.parse(localStorage.getItem('ohkeygg_users') || '[]');
-        let hwidKeys = JSON.parse(localStorage.getItem('ohkeygg_hwid_keys') || '{}'); // {projectId: {hwid: {key, createdAt}}}
+        let hwidData = JSON.parse(localStorage.getItem('ohkeygg_hwid_data') || '{}');
         let stats = JSON.parse(localStorage.getItem('ohkeygg_stats') || '{"blocked":0,"generated":0}');
+        let userIPs = {}; // Cache de IPs
 
         function save() {
             localStorage.setItem('ohkeygg_projects', JSON.stringify(projects));
             localStorage.setItem('ohkeygg_keys', JSON.stringify(keys));
             localStorage.setItem('ohkeygg_users', JSON.stringify(registeredUsers));
-            localStorage.setItem('ohkeygg_hwid_keys', JSON.stringify(hwidKeys));
+            localStorage.setItem('ohkeygg_hwid_data', JSON.stringify(hwidData));
             localStorage.setItem('ohkeygg_stats', JSON.stringify(stats));
         }
 
@@ -285,6 +246,18 @@
             const d = [screen.width, screen.height, screen.colorDepth, navigator.hardwareConcurrency || 4, navigator.deviceMemory || 4, navigator.language, Intl.DateTimeFormat().resolvedOptions().timeZone].join('|');
             let h = 0; for (let i = 0; i < d.length; i++) { h = ((h << 5) - h) + d.charCodeAt(i); h |= 0; }
             return 'HWID-' + Math.abs(h).toString(36).toUpperCase().substring(0, 12);
+        }
+
+        async function getIP() {
+            if (userIPs._cached) return userIPs._cached;
+            try {
+                const res = await fetch('https://api.ipify.org?format=json');
+                const data = await res.json();
+                userIPs._cached = data.ip;
+                return data.ip;
+            } catch (e) {
+                return 'IP-' + Math.random().toString(36).substring(2, 10);
+            }
         }
 
         function init() {
@@ -298,7 +271,8 @@
             if (hash.startsWith('#getkey')) {
                 const params = new URLSearchParams(hash.split('?')[1] || '');
                 const projectId = params.get('id');
-                if (projectId) { showGetkeyPage(projectId); return; }
+                const urlHwid = params.get('hwid');
+                if (projectId) { showGetkeyPage(projectId, urlHwid); return; }
             }
             navigateTo('home');
         }
@@ -333,8 +307,8 @@
             switch (tab) { case 'home': loadHome(); break; case 'projects': loadProjects(); break; case 'keys': loadKeys(); break; case 'links': loadLinks(); break; case 'stats': loadStats(); break; case 'settings': loadSettings(); break; }
         }
 
-        // ==================== GETKEY PAGE (SIMPLES) ====================
-        function showGetkeyPage(projectId) {
+        // ==================== GETKEY PAGE ====================
+        async function showGetkeyPage(projectId, urlHwid) {
             document.querySelectorAll('#app>.page-section').forEach(s => s.classList.remove('active'));
             document.getElementById('page-getkey').classList.add('active');
             document.getElementById('mainNav').style.display = 'none';
@@ -342,24 +316,51 @@
             const project = projects.find(p => p.id === projectId);
             const box = document.getElementById('getkeyBox');
             const realHWID = genHWID();
+            const ip = await getIP();
 
             if (!project || project.status === 'offline') {
                 box.innerHTML = `<div class="icon"><i class="fas fa-exclamation-triangle" style="color:var(--error)"></i></div><h1>Indisponível</h1><p class="text-muted">Projeto offline ou não encontrado.</p>`;
                 return;
             }
 
-            // Verificar se esse HWID já pegou key
-            if (hwidKeys[projectId] && hwidKeys[projectId][realHWID]) {
-                const existing = hwidKeys[projectId][realHWID];
+            // Verificar se URL tem HWID e se bate com o real
+            if (urlHwid && urlHwid !== realHWID) {
+                stats.blocked = (stats.blocked || 0) + 1;
+                save();
+                box.innerHTML = `
+                    <div class="icon"><i class="fas fa-shield-alt" style="color:var(--error);font-size:60px"></i></div>
+                    <h1 style="color:var(--error)">🚫 ACESSO BLOQUEADO</h1>
+                    <p class="text-muted">${esc(project.name)}</p>
+                    <div class="hwid-badge mismatch">URL HWID: ${urlHwid}</div>
+                    <div class="hwid-badge">Seu HWID: ${realHWID}</div>
+                    <div class="error-box">
+                        <p class="blocked-text"><i class="fas fa-ban"></i> HWID NÃO CORRESPONDE</p>
+                        <p class="text-muted text-sm mt-10">A URL contém um HWID de outro computador. Este link é pessoal e intransferível.</p>
+                        <p class="text-muted text-xs mt-10">O link foi compartilhado? Cada link funciona apenas no computador que o gerou.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Verificar se já tem key ativa para este HWID+Projeto
+            const existingKey = getExistingKey(projectId, realHWID, ip);
+            if (existingKey) {
+                const expiresDate = new Date(existingKey.createdAt + KEY_DURATION);
+                const remaining = Math.max(0, expiresDate - Date.now());
+                const hoursLeft = Math.floor(remaining / 3600000);
+                const minsLeft = Math.floor((remaining % 3600000) / 60000);
+
                 box.innerHTML = `
                     <div class="icon"><i class="fas fa-check-circle" style="color:var(--success);font-size:60px"></i></div>
                     <h1 style="color:var(--success)">Key Já Gerada!</h1>
                     <p class="text-muted">${esc(project.name)}</p>
                     <div class="hwid-badge">🔒 ${realHWID}</div>
-                    <div class="key-result"><p class="text-sm text-muted mb-10">Sua Key:</p><code>${existing.key}</code></div>
-                    <p class="warning-text"><i class="fas fa-exclamation-triangle"></i> Esta key é vinculada ao seu HWID. Não compartilhe!</p>
-                    <button class="btn btn-copy w-full mt-10" onclick="copyText('${existing.key}')"><i class="fas fa-copy"></i> Copiar Key</button>
-                    <p class="text-xs text-muted mt-10">Gerada em: ${new Date(existing.createdAt).toLocaleString()}</p>
+                    <div class="key-result"><p class="text-sm text-muted mb-10">Sua Key:</p><code>${existingKey.key}</code></div>
+                    <p class="expire-info"><i class="fas fa-clock"></i> Expira em: ${hoursLeft}h ${minsLeft}m</p>
+                    <p class="text-xs text-muted mt-10">Gerada em: ${new Date(existingKey.createdAt).toLocaleString()}</p>
+                    <p class="text-xs text-muted">Expira em: ${expiresDate.toLocaleString()}</p>
+                    <button class="btn btn-copy w-full mt-10" onclick="copyText('${existingKey.key}')"><i class="fas fa-copy"></i> Copiar Key</button>
+                    <p class="text-xs text-error mt-10"><i class="fas fa-exclamation-triangle"></i> Você já pegou sua key. Aguarde expirar para pegar outra.</p>
                 `;
                 return;
             }
@@ -368,18 +369,48 @@
             box.innerHTML = `
                 <div class="icon"><i class="fas fa-key"></i></div>
                 <h1>${esc(project.name)}</h1>
-                <p class="text-muted">Sua key será vinculada ao seu HWID</p>
+                <p class="text-muted">Key válida por 24 horas - Vinculada ao seu HWID</p>
                 <div class="hwid-badge">🔒 ${realHWID}</div>
+                <p class="text-xs text-muted">IP: ${ip}</p>
                 <div id="getkeyAction">
-                    <button class="btn btn-primary btn-xl" onclick="startGetKey('${projectId}','${realHWID}')" id="getKeyBtn">
+                    <button class="btn btn-primary btn-xl" onclick="startGetKey('${projectId}','${realHWID}','${ip}')" id="getKeyBtn">
                         <i class="fas fa-key"></i> GET KEY
                     </button>
                 </div>
-                <p class="text-xs text-muted mt-10">Clique no botão para gerar sua key única</p>
+                <p class="text-xs text-muted mt-10">Clique para gerar sua key única</p>
+                <p class="text-xs text-warning mt-10"><i class="fas fa-exclamation-triangle"></i> Só pode pegar 1 key por vez. Após expirar (24h), pode pegar outra.</p>
             `;
         }
 
-        function startGetKey(projectId, hwid) {
+        function getExistingKey(projectId, hwid, ip) {
+            const projectData = hwidData[projectId];
+            if (!projectData) return null;
+
+            // Procurar por HWID
+            if (projectData[hwid]) {
+                const entry = projectData[hwid];
+                // Verificar se expirou
+                if (Date.now() - entry.createdAt < KEY_DURATION) {
+                    return entry; // Key ainda válida
+                } else {
+                    // Key expirada, pode pegar nova
+                    delete projectData[hwid];
+                    save();
+                    return null;
+                }
+            }
+
+            // Procurar por IP (anti-burla)
+            for (const [h, entry] of Object.entries(projectData)) {
+                if (entry.ip === ip && Date.now() - entry.createdAt < KEY_DURATION) {
+                    return entry; // Mesmo IP já pegou key
+                }
+            }
+
+            return null;
+        }
+
+        function startGetKey(projectId, hwid, ip) {
             const btn = document.getElementById('getKeyBtn');
             const actionDiv = document.getElementById('getkeyAction');
             if (!btn || !actionDiv) return;
@@ -387,63 +418,77 @@
             btn.disabled = true;
             btn.innerHTML = '<div class="loading-spinner"></div> Gerando...';
 
-            // Countdown de 5 segundos
             let count = 5;
-            actionDiv.innerHTML = `
-                <div class="countdown-circle" id="countdownCircle">${count}</div>
-                <p class="text-muted">Gerando sua key...</p>
-            `;
-
+            actionDiv.innerHTML = `<div class="countdown-circle" id="countdownCircle">${count}</div><p class="text-muted">Gerando sua key...</p>`;
             const circle = document.getElementById('countdownCircle');
+
             const interval = setInterval(() => {
                 count--;
                 if (circle) circle.textContent = count;
                 if (count <= 0) {
                     clearInterval(interval);
-                    // Gerar key
-                    const key = generateKeyForHWID(projectId, hwid);
+                    const key = generateKeyForHWID(projectId, hwid, ip);
                     const project = projects.find(p => p.id === projectId);
+                    const expiresDate = new Date(Date.now() + KEY_DURATION);
 
-                    actionDiv.innerHTML = `
-                        <div class="key-result"><p class="text-sm text-muted mb-10">✅ Key Gerada!</p><code>${key}</code></div>
+                    document.getElementById('getkeyBox').innerHTML = `
+                        <div class="icon"><i class="fas fa-check-circle" style="color:var(--success);font-size:60px"></i></div>
+                        <h1 style="color:var(--success)">Key Gerada!</h1>
+                        <p class="text-muted">${esc(project?.name||'')}</p>
+                        <div class="hwid-badge">🔒 ${hwid}</div>
+                        <div class="key-result"><p class="text-sm text-muted mb-10">Sua Key:</p><code>${key}</code></div>
+                        <p class="expire-info"><i class="fas fa-clock"></i> Expira em: 24 horas (${expiresDate.toLocaleString()})</p>
                         <button class="btn btn-copy w-full mt-10" onclick="copyText('${key}')"><i class="fas fa-copy"></i> Copiar Key</button>
+                        <p class="text-xs text-muted mt-10">Key vinculada ao seu HWID e IP</p>
+                        <p class="text-xs text-warning mt-10"><i class="fas fa-exclamation-triangle"></i> Esta key expira em 24h. Depois você pode pegar outra.</p>
                     `;
-
-                    // Atualizar o box inteiro
-                    setTimeout(() => {
-                        document.getElementById('getkeyBox').innerHTML = `
-                            <div class="icon"><i class="fas fa-check-circle" style="color:var(--success);font-size:60px"></i></div>
-                            <h1 style="color:var(--success)">Key Gerada!</h1>
-                            <p class="text-muted">${esc(project?.name||'')}</p>
-                            <div class="hwid-badge">🔒 ${hwid}</div>
-                            <div class="key-result"><p class="text-sm text-muted mb-10">Sua Key:</p><code>${key}</code></div>
-                            <p class="warning-text"><i class="fas fa-exclamation-triangle"></i> Key vinculada ao seu HWID. Não compartilhe!</p>
-                            <button class="btn btn-copy w-full mt-10" onclick="copyText('${key}')"><i class="fas fa-copy"></i> Copiar Key</button>
-                        `;
-                    }, 2000);
                 }
             }, 1000);
         }
 
-        function generateKeyForHWID(projectId, hwid) {
+        function generateKeyForHWID(projectId, hwid, ip) {
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             let key = 'OHKEY-';
             for (let i = 0; i < 4; i++) { for (let j = 0; j < 4; j++) key += chars.charAt(Math.floor(Math.random() * chars.length)); if (i < 3) key += '-'; }
 
+            const project = projects.find(p => p.id === projectId);
+            const now = Date.now();
+
             // Salvar vinculação HWID
-            hwidKeys[projectId] = hwidKeys[projectId] || {};
-            hwidKeys[projectId][hwid] = { key, createdAt: new Date().toISOString() };
+            hwidData[projectId] = hwidData[projectId] || {};
+            hwidData[projectId][hwid] = { key, ip, createdAt: now, expiresAt: now + KEY_DURATION };
 
             // Adicionar na lista de keys
-            const project = projects.find(p => p.id === projectId);
-            keys.push({ id: 'key_' + Date.now(), key, projectId, project: project ? project.name : '', type: 'hwid', status: 'active', hwid, expires: 'Nunca', createdAt: new Date().toISOString() });
+            keys.push({
+                id: 'key_' + now, key, projectId, project: project ? project.name : '',
+                type: 'hwid_24h', status: 'active', hwid, ip,
+                createdAt: new Date(now).toISOString(),
+                expiresAt: new Date(now + KEY_DURATION).toISOString()
+            });
+
             if (project) project.keys = (project.keys || 0) + 1;
             stats.generated = (stats.generated || 0) + 1;
             save();
             return key;
         }
 
-        function copyText(t) { navigator.clipboard.writeText(t).then(() => showNotification('Copiado!', 'success')).catch(() => showNotification('Erro ao copiar', 'error')); }
+        // Limpar keys expiradas periodicamente
+        function cleanExpiredKeys() {
+            let changed = false;
+            for (const pid in hwidData) {
+                for (const hwid in hwidData[pid]) {
+                    if (Date.now() - hwidData[pid][hwid].createdAt >= KEY_DURATION) {
+                        delete hwidData[pid][hwid];
+                        changed = true;
+                    }
+                }
+                if (Object.keys(hwidData[pid]).length === 0) delete hwidData[pid];
+            }
+            if (changed) save();
+        }
+        setInterval(cleanExpiredKeys, 60000); // Limpar a cada 1 minuto
+
+        function copyText(t) { navigator.clipboard.writeText(t).then(() => showNotification('Key copiada!', 'success')).catch(() => showNotification('Erro ao copiar', 'error')); }
 
         // ==================== AUTH ====================
         function handleRegister() {
@@ -456,8 +501,7 @@
             token = genToken({ id: newUser.id, username: u, email: e, role: 'user' });
             currentUser = { id: newUser.id, username: u, email: e, role: 'user' };
             localStorage.setItem('ohkeygg_token', token);
-            checkAuthState();
-            showNotification('✅ Conta criada!', 'success');
+            checkAuthState(); showNotification('✅ Conta criada!', 'success');
             setTimeout(() => navigateTo('dashboard'), 1000);
         }
 
@@ -470,8 +514,7 @@
             token = genToken({ id: u.id, username: u.username, email: u.email, role: u.role });
             currentUser = { id: u.id, username: u.username, email: u.email, role: u.role };
             localStorage.setItem('ohkeygg_token', token);
-            checkAuthState();
-            showNotification('✅ Login!', 'success');
+            checkAuthState(); showNotification('✅ Login!', 'success');
             setTimeout(() => navigateTo('dashboard'), 800);
         }
 
@@ -484,21 +527,21 @@
             const dc = document.getElementById('dashboardContent'); if (!dc) return;
             dc.innerHTML = `
                 <div id="tab-home" class="page-section active"><h2 class="mb-20">Visão Geral</h2><div class="stats-grid" id="dashStats"></div></div>
-                <div id="tab-projects" class="page-section"><div class="flex justify-between items-center mb-20"><h2>Projetos</h2><button class="btn btn-primary" onclick="showNewProject()"><i class="fas fa-plus"></i> Novo Projeto</button></div><div class="projects-grid" id="projectsList"></div></div>
-                <div id="tab-keys" class="page-section"><h2 class="mb-20">Keys Geradas</h2><div class="card"><table><thead><tr><th>Key</th><th>Projeto</th><th>HWID</th><th>Status</th><th>Data</th></tr></thead><tbody id="keysTableBody"></tbody></table></div></div>
+                <div id="tab-projects" class="page-section"><div class="flex justify-between items-center mb-20"><h2>Projetos</h2><button class="btn btn-primary" onclick="showNewProject()"><i class="fas fa-plus"></i> Novo</button></div><div class="projects-grid" id="projectsList"></div></div>
+                <div id="tab-keys" class="page-section"><h2 class="mb-20">Keys (24h)</h2><div class="card"><table><thead><tr><th>Key</th><th>Projeto</th><th>HWID</th><th>IP</th><th>Expira</th><th>Status</th></tr></thead><tbody id="keysTableBody"></tbody></table></div></div>
                 <div id="tab-links" class="page-section"><h2 class="mb-20">Links de Geração</h2><div class="card" id="linksContent"></div></div>
                 <div id="tab-stats" class="page-section"><h2 class="mb-20">Estatísticas</h2><div class="stats-grid" id="detailedStats"></div></div>
-                <div id="tab-settings" class="page-section"><h2 class="mb-20">Configurações</h2><div class="card"><div class="form-group"><label>Username</label><input type="text" id="settingsUsername"></div><div class="form-group"><label>Nova Senha</label><input type="password" id="settingsPassword"></div><button class="btn btn-primary" onclick="saveSettings()">Salvar</button></div></div>
+                <div id="tab-settings" class="page-section"><h2 class="mb-20">Configurações</h2><div class="card"><div class="form-group"><label>Username</label><input type="text" id="settingsUsername"></div><button class="btn btn-primary" onclick="saveSettings()">Salvar</button></div></div>
             `;
             loadHome();
         }
 
         function loadHome() {
             const c = document.getElementById('dashStats'); if (!c) return;
-            const totalKeys = Object.values(hwidKeys).reduce((acc, h) => acc + Object.keys(h).length, 0);
+            const totalActive = Object.values(hwidData).reduce((acc, h) => acc + Object.keys(h).length, 0);
             c.innerHTML = `
                 <div class="stat-card"><div class="stat-icon"><i class="fas fa-folder"></i></div><div class="stat-info"><h3>Projetos</h3><div class="stat-value">${projects.length}</div></div></div>
-                <div class="stat-card"><div class="stat-icon"><i class="fas fa-key"></i></div><div class="stat-info"><h3>Keys Geradas</h3><div class="stat-value">${stats.generated||0}</div></div></div>
+                <div class="stat-card"><div class="stat-icon"><i class="fas fa-key"></i></div><div class="stat-info"><h3>Keys Ativas</h3><div class="stat-value">${totalActive}</div></div></div>
                 <div class="stat-card"><div class="stat-icon"><i class="fas fa-users"></i></div><div class="stat-info"><h3>Usuários</h3><div class="stat-value">${registeredUsers.length}</div></div></div>
                 <div class="stat-card"><div class="stat-icon"><i class="fas fa-shield-alt"></i></div><div class="stat-info"><h3>Bloqueios</h3><div class="stat-value" style="color:var(--error)">${stats.blocked||0}</div></div></div>
             `;
@@ -508,17 +551,15 @@
             const c = document.getElementById('projectsList'); if (!c) return;
             if (!projects.length) { c.innerHTML = `<div class="empty-state"><i class="fas fa-folder-open"></i><h3>Nenhum projeto</h3></div>`; return; }
             c.innerHTML = projects.map(p => {
-                const returnUrl = `${BASE}/#getkey?id=${p.id}`;
+                const url = `${BASE}/#getkey?id=${p.id}`;
+                const activeKeys = hwidData[p.id] ? Object.keys(hwidData[p.id]).length : 0;
                 return `
                 <div class="project-card">
                     <div class="project-card-header"><div class="project-logo"><i class="fas fa-folder"></i></div><div class="project-info"><h4>${esc(p.name)}</h4><code class="text-xs text-muted">ID: ${p.id}</code></div></div>
-                    <div class="project-stats"><span class="badge ${p.status==='online'?'badge-success':'badge-danger'}">${p.status}</span><span class="text-xs text-muted">Keys: ${p.keys||0}</span></div>
+                    <div class="project-stats"><span class="badge ${p.status==='online'?'badge-success':'badge-danger'}">${p.status}</span><span class="text-xs text-muted">Keys ativas: ${activeKeys}</span></div>
                     <p class="text-xs text-muted mb-10">URL Retorno Linkvertise:</p>
-                    <div class="link-box"><code>${returnUrl}</code><button class="btn btn-copy btn-sm" onclick="copyText('${returnUrl}')"><i class="fas fa-copy"></i></button></div>
-                    <div class="project-actions mt-10">
-                        <button class="btn btn-outline btn-sm" onclick="copyText('${returnUrl}')"><i class="fas fa-link"></i> Copiar Link</button>
-                        <button class="btn btn-danger btn-sm" onclick="deleteProject('${p.id}')"><i class="fas fa-trash"></i></button>
-                    </div>
+                    <div class="link-box"><code style="font-size:11px">${url}</code><button class="btn btn-copy btn-sm" onclick="copyText('${url}')"><i class="fas fa-copy"></i></button></div>
+                    <div class="project-actions mt-10"><button class="btn btn-outline btn-sm" onclick="copyText('${url}')"><i class="fas fa-link"></i> Copiar</button><button class="btn btn-danger btn-sm" onclick="deleteProject('${p.id}')"><i class="fas fa-trash"></i></button></div>
                 </div>`;
             }).join('');
         }
@@ -528,34 +569,37 @@
             if (!name) return;
             const id = 'proj_' + Date.now();
             projects.push({ id, name, description: '', status: 'online', keys: 0 });
-            save();
-            renderDashboard();
-            switchTab('projects', document.querySelectorAll('.sidebar-link')[1]);
-            const returnUrl = `${BASE}/#getkey?id=${id}`;
-            showNotification(`Projeto criado! URL: ${returnUrl}`, 'success');
+            save(); renderDashboard(); switchTab('projects', document.querySelectorAll('.sidebar-link')[1]);
+            showNotification('Projeto criado!', 'success');
         }
 
         function deleteProject(id) { if (confirm('Excluir?')) { projects = projects.filter(p => p.id !== id); save(); renderDashboard(); switchTab('projects', document.querySelectorAll('.sidebar-link')[1]); } }
 
         function loadKeys() {
             const t = document.getElementById('keysTableBody'); if (!t) return;
-            if (!keys.length) { t.innerHTML = `<tr><td colspan="5" class="text-center text-muted">Nenhuma key gerada</td></tr>`; return; }
-            t.innerHTML = keys.map(k => `<tr><td><code style="font-size:11px">${k.key}</code></td><td>${esc(k.project)}</td><td>${k.hwid?k.hwid.substring(0,12)+'...':'Manual'}</td><td><span class="badge ${k.status==='active'?'badge-success':'badge-danger'}">${k.status}</span></td><td>${new Date(k.createdAt).toLocaleDateString()}</td></tr>`).join('');
+            const allKeys = [...keys].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            if (!allKeys.length) { t.innerHTML = `<tr><td colspan="6" class="text-center text-muted">Nenhuma key</td></tr>`; return; }
+            t.innerHTML = allKeys.map(k => {
+                const isExpired = new Date(k.expiresAt).getTime() < Date.now();
+                const status = isExpired ? '<span class="badge badge-danger">Expirada</span>' : '<span class="badge badge-success">Ativa</span>';
+                return `<tr><td><code style="font-size:11px">${k.key}</code></td><td>${esc(k.project)}</td><td>${k.hwid?k.hwid.substring(0,12)+'...':'N/A'}</td><td>${k.ip||'N/A'}</td><td>${new Date(k.expiresAt).toLocaleString()}</td><td>${status}</td></tr>`;
+            }).join('');
         }
 
         function loadLinks() {
             const c = document.getElementById('linksContent'); if (!c) return;
-            if (!projects.length) { c.innerHTML = `<p class="text-muted">Crie um projeto primeiro.</p>`; return; }
-            c.innerHTML = `<p class="text-muted mb-10">Configure o Linkvertise com a URL de retorno abaixo:</p>` + projects.map(p => {
+            if (!projects.length) { c.innerHTML = `<p class="text-muted">Crie um projeto.</p>`; return; }
+            c.innerHTML = `<p class="text-muted mb-10">Configure no Linkvertise a URL de destino:</p>` + projects.map(p => {
                 const url = `${BASE}/#getkey?id=${p.id}`;
-                return `<div class="link-box mb-10"><code>${url}</code><button class="btn btn-copy btn-sm" onclick="copyText('${url}')"><i class="fas fa-copy"></i> Copiar</button></div><p class="text-xs text-muted mb-10">Projeto: <strong>${esc(p.name)}</strong> | Keys: ${p.keys||0}</p>`;
+                return `<div class="link-box mb-10"><code style="font-size:11px">${url}</code><button class="btn btn-copy btn-sm" onclick="copyText('${url}')"><i class="fas fa-copy"></i></button></div><p class="text-xs text-muted mb-10">${esc(p.name)} | Keys ativas: ${hwidData[p.id]?Object.keys(hwidData[p.id]).length:0}</p>`;
             }).join('<hr style="border-color:var(--border);margin:10px 0">');
         }
 
         function loadStats() {
             const c = document.getElementById('detailedStats'); if (!c) return;
+            const totalActive = Object.values(hwidData).reduce((acc, h) => acc + Object.keys(h).length, 0);
             c.innerHTML = `
-                <div class="stat-card"><div class="stat-icon"><i class="fas fa-key"></i></div><div class="stat-info"><h3>Keys Geradas</h3><div class="stat-value">${stats.generated||0}</div></div></div>
+                <div class="stat-card"><div class="stat-icon"><i class="fas fa-key"></i></div><div class="stat-info"><h3>Keys Ativas</h3><div class="stat-value">${totalActive}</div></div></div>
                 <div class="stat-card"><div class="stat-icon"><i class="fas fa-shield-alt"></i></div><div class="stat-info"><h3>Bloqueios</h3><div class="stat-value" style="color:var(--error)">${stats.blocked||0}</div></div></div>
                 <div class="stat-card"><div class="stat-icon"><i class="fas fa-link"></i></div><div class="stat-info"><h3>Projetos</h3><div class="stat-value">${projects.length}</div></div></div>
             `;
@@ -564,28 +608,14 @@
         function loadSettings() { if (currentUser) document.getElementById('settingsUsername').value = currentUser.username; }
 
         function saveSettings() {
-            const u = document.getElementById('settingsUsername')?.value, p = document.getElementById('settingsPassword')?.value;
+            const u = document.getElementById('settingsUsername')?.value;
             if (currentUser && u) { currentUser.username = u; document.getElementById('navUsername').textContent = u; }
             const i = registeredUsers.findIndex(x => x.id === currentUser?.id);
-            if (i !== -1) { if (u) registeredUsers[i].username = u; if (p) registeredUsers[i].password = p; save(); }
+            if (i !== -1 && u) { registeredUsers[i].username = u; save(); }
             showNotification('Salvo!', 'success');
         }
 
-        function generateKey() {
-            const pid = document.getElementById('keyProject')?.value; if (!pid) return;
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; let k = 'OHKEY-';
-            for (let i = 0; i < 4; i++) { for (let j = 0; j < 4; j++) k += chars.charAt(Math.floor(Math.random() * chars.length)); if (i < 3) k += '-'; }
-            const proj = projects.find(p => p.id === pid);
-            keys.unshift({ id: 'key_' + Date.now(), key: k, projectId: pid, project: proj?.name||'', type: 'manual', status: 'active', hwid: null, expires: 'Nunca', createdAt: new Date().toISOString() });
-            if (proj) proj.keys = (proj.keys||0) + 1;
-            stats.generated = (stats.generated||0) + 1;
-            save(); closeModal('keyModal'); renderDashboard(); switchTab('keys', document.querySelectorAll('.sidebar-link')[2]);
-        }
-
-        function showModal(id) {
-            const m = document.getElementById(id); if (!m) return; m.classList.add('show');
-            if (id === 'keyModal') { const sel = document.getElementById('keyProject'); if (sel) sel.innerHTML = projects.map(p => `<option value="${p.id}">${esc(p.name)}</option>`).join('') || '<option>Nenhum</option>'; }
-        }
+        function showModal(id) { const m = document.getElementById(id); if (m) m.classList.add('show'); }
         function closeModal(id) { const m = document.getElementById(id); if (m) m.classList.remove('show'); }
 
         function showNotification(msg, type = 'info') {
@@ -603,8 +633,12 @@
         document.addEventListener('keydown', function(e) { if (e.key === 'Escape') document.querySelectorAll('.modal.show').forEach(m => m.classList.remove('show')); });
 
         init();
-        console.log('🔥 OhKeyGG - Pronto!');
-        console.log('🔗 Formato: Linkvertise → #getkey?id=X → Botão GET KEY → Key vinculada ao HWID');
+        cleanExpiredKeys();
+        console.log('🔥 OhKeyGG - Sistema Final');
+        console.log('⏰ Keys: 24 horas');
+        console.log('🔒 Vinculação: HWID + IP');
+        console.log('🚫 Anti-Share: HWID na URL não bate → BLOQUEADO');
+        console.log('🔁 Só pega 1 key por vez, após expirar pode pegar outra');
     </script>
 </body>
 </html>
