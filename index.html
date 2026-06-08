@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OhKeyGG - Premium Key System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <style>
         :root {
             --primary:#DC2626;--primary-dark:#B91C1C;--primary-light:#EF4444;
@@ -16,14 +15,13 @@
         }
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:var(--bg-dark);color:var(--text-primary);line-height:1.6;min-height:100vh}
-        
+
         @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
         @keyframes slideInRight{from{opacity:0;transform:translateX(50px)}to{opacity:1;transform:translateX(0)}}
         @keyframes spin{to{transform:rotate(360deg)}}
-        @keyframes modalSlideIn{from{opacity:0;transform:translateY(-30px) scale(0.95)}to{opacity:1;transform:translateY(0) scale(1)}}
-        @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.02)}}
+        @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
         @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
-        @keyframes glow{0%,100%{box-shadow:0 0 5px var(--primary)}50%{box-shadow:0 0 20px var(--primary),0 0 40px var(--primary-light)}}
+        @keyframes countdownPulse{0%,100%{box-shadow:0 0 10px var(--primary)}50%{box-shadow:0 0 30px var(--primary),0 0 60px var(--primary-light)}}
 
         .navbar{background:var(--bg-darker);border-bottom:1px solid var(--border);padding:12px 0;position:sticky;top:0;z-index:1000}
         .container{max-width:1200px;margin:0 auto;padding:0 20px}
@@ -42,10 +40,10 @@
         .btn-outline:hover{border-color:var(--primary);color:var(--primary-light)}
         .btn-sm{padding:6px 12px;font-size:12px}
         .btn-lg{padding:15px 30px;font-size:16px}
+        .btn-xl{padding:20px 40px;font-size:20px;border-radius:16px}
         .btn-danger{background:var(--error)}
         .btn-warning{background:var(--warning);color:#1a1a1a}
         .btn-success{background:var(--success)}
-        .btn-glow{animation:glow 2s infinite}
         .btn-copy{background:var(--bg-input);border:1px solid var(--border);color:var(--text-primary)}
         .btn-copy:hover{border-color:var(--primary)}
         .btn:disabled{opacity:.5;cursor:not-allowed}
@@ -53,8 +51,7 @@
         .page-section{display:none}
         .page-section.active{display:block;animation:fadeIn .4s ease}
 
-        .hero{padding:60px 0}
-        .hero-content{text-align:center;max-width:700px;margin:0 auto}
+        .hero{padding:60px 0;text-align:center}
         .hero h1{font-size:42px;font-weight:800;margin-bottom:15px;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
         .hero p{font-size:16px;color:var(--text-secondary);margin-bottom:25px}
         .hero-buttons{display:flex;gap:12px;justify-content:center}
@@ -80,7 +77,7 @@
         .form-footer a{color:var(--primary-light);cursor:pointer;font-weight:600}
 
         .dashboard-layout{display:flex;min-height:calc(100vh - 56px)}
-        .sidebar{width:240px;background:var(--bg-darker);border-right:1px solid var(--border);padding:15px;position:fixed;height:calc(100vh - 56px);top:56px;left:0;overflow-y:auto;z-index:100}
+        .sidebar{width:240px;background:var(--bg-darker);border-right:1px solid var(--border);padding:15px;position:fixed;height:calc(100vh - 56px);top:56px;left:0;overflow-y:auto;z-index:100;transition:transform .3s}
         .sidebar-nav{display:flex;flex-direction:column;gap:3px}
         .sidebar-link{display:flex;align-items:center;gap:10px;padding:10px 14px;color:var(--text-secondary);border-radius:8px;cursor:pointer;border:none;background:0 0;width:100%;text-align:left;font-size:13px}
         .sidebar-link:hover{background:rgba(220,38,38,.1);color:var(--text-primary)}
@@ -100,27 +97,34 @@
         .badge{padding:3px 10px;border-radius:20px;font-size:10px;font-weight:600;display:inline-block}
         .badge-success{background:rgba(72,187,120,.2);color:var(--success)}
         .badge-danger{background:rgba(252,129,129,.2);color:var(--error)}
-        .badge-warning{background:rgba(246,173,85,.2);color:var(--warning)}
         .badge-info{background:rgba(66,153,225,.2);color:#4299E1}
 
         .projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:15px}
         .project-card{background:var(--bg-card);border-radius:12px;border:1px solid var(--border);padding:18px}
-        .project-card:hover{border-color:var(--primary);transform:translateY(-3px)}
+        .project-card:hover{border-color:var(--primary)}
         .project-card-header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
-        .project-logo{width:42px;height:42px;border-radius:8px;background:var(--gradient);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+        .project-logo{width:42px;height:42px;border-radius:8px;background:var(--gradient);display:flex;align-items:center;justify-content:center;font-size:18px}
         .project-stats{display:flex;gap:15px;margin-bottom:12px}
         .project-actions{display:flex;gap:6px;justify-content:flex-end;flex-wrap:wrap}
-
-        .checkpoint-list{display:flex;flex-direction:column;gap:8px}
-        .checkpoint-item{background:var(--bg-input);padding:12px 15px;border-radius:8px;border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+        .checkpoint-item{background:var(--bg-input);padding:12px 15px;border-radius:8px;border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
 
         .link-box{background:var(--bg-input);padding:15px;border-radius:8px;border:2px dashed var(--primary);margin:10px 0;word-break:break-all;font-family:monospace;font-size:13px;color:var(--primary-light);display:flex;align-items:center;justify-content:space-between;gap:10px}
+        .lua-code{background:#1a1a1a;color:#48BB78;padding:20px;border-radius:8px;font-family:'Courier New',monospace;font-size:12px;white-space:pre-wrap;border:1px solid var(--border);max-height:400px;overflow-y:auto}
 
-        .lua-code{background:#1a1a1a;color:#48BB78;padding:20px;border-radius:8px;font-family:'Courier New',monospace;font-size:12px;overflow-x:auto;white-space:pre-wrap;border:1px solid var(--border);max-height:400px;overflow-y:auto;line-height:1.5}
+        /* GETKEY PAGE - SIMPLES */
+        .getkey-page{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+        .getkey-box{background:var(--bg-card);border-radius:20px;border:2px solid var(--border);padding:40px;text-align:center;max-width:500px;width:100%;animation:fadeIn .5s ease}
+        .getkey-box .icon{font-size:60px;color:var(--primary);margin-bottom:20px}
+        .getkey-box h1{font-size:28px;margin-bottom:10px}
+        .getkey-box .hwid-badge{background:var(--bg-input);padding:8px 16px;border-radius:20px;display:inline-block;font-family:monospace;font-size:14px;color:var(--primary-light);margin:15px 0}
+        .getkey-box .countdown-circle{width:100px;height:100px;border-radius:50%;border:4px solid var(--primary);display:flex;align-items:center;justify-content:center;margin:20px auto;font-size:36px;font-weight:800;animation:countdownPulse 1s infinite}
+        .getkey-box .key-result{background:var(--bg-input);padding:20px;border-radius:12px;border:2px solid var(--success);margin:20px 0;animation:pulse 1s infinite}
+        .getkey-box .key-result code{font-size:28px;font-weight:800;color:var(--success);letter-spacing:2px}
+        .getkey-box .warning-text{color:var(--warning);font-size:13px;margin-top:15px}
 
         .modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);z-index:2000;align-items:center;justify-content:center}
         .modal.show{display:flex}
-        .modal-content{background:var(--bg-card);border-radius:16px;padding:25px;width:90%;max-width:600px;max-height:90vh;overflow-y:auto;border:1px solid var(--border);animation:modalSlideIn .3s ease}
+        .modal-content{background:var(--bg-card);border-radius:16px;padding:25px;width:90%;max-width:550px;max-height:90vh;overflow-y:auto;border:1px solid var(--border);animation:fadeIn .3s ease}
         .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
         .modal-close{background:0 0;border:none;color:var(--text-secondary);font-size:26px;cursor:pointer}
         .modal-close:hover{color:var(--primary)}
@@ -132,51 +136,16 @@
         .notification.warning{background:var(--warning);color:#1a1a1a}
         .notification.info{background:#4299E1}
 
-        .getkey-container{max-width:600px;margin:40px auto}
-        .getkey-header{text-align:center;margin-bottom:30px}
-        .getkey-header h1{font-size:28px;margin-bottom:10px}
-        .hwid-display{background:var(--bg-input);padding:12px;border-radius:8px;border:1px solid var(--border);text-align:center;font-family:monospace;font-size:14px;color:var(--primary-light);margin-bottom:20px}
-        .hwid-display.blocked{color:var(--error);border-color:var(--error);animation:shake .5s ease}
-        .checkpoint-card{background:var(--bg-card);border-radius:12px;border:1px solid var(--border);padding:20px;margin-bottom:15px;transition:all .3s}
-        .checkpoint-card.completed{border-color:var(--success);opacity:.7}
-        .checkpoint-card h4{margin-bottom:10px;display:flex;align-items:center;gap:8px}
-        .progress-bar{background:var(--bg-input);border-radius:10px;height:8px;margin:10px 0;overflow:hidden}
-        .progress-fill{background:var(--gradient);height:100%;border-radius:10px;transition:width .3s;width:0%}
-        .key-display{background:var(--bg-input);padding:20px;border-radius:12px;border:2px solid var(--success);text-align:center;margin:20px 0;animation:pulse 1s infinite}
-        .key-display code{font-size:24px;font-weight:800;color:var(--success);letter-spacing:2px}
-
-        .step-indicator{display:flex;justify-content:center;gap:30px;margin-bottom:30px}
-        .step{text-align:center;color:var(--text-muted)}
-        .step.active{color:var(--primary-light)}
-        .step.done{color:var(--success)}
-        .step-num{width:40px;height:40px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;margin:0 auto 8px;font-weight:700;font-size:16px}
-        .step.active .step-num{border-color:var(--primary);background:var(--gradient);color:#fff}
-        .step.done .step-num{border-color:var(--success);background:var(--success);color:#fff}
-
-        .charts-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:15px}
-        .chart-container{background:var(--bg-card);border-radius:12px;border:1px solid var(--border);padding:15px;height:280px}
-
-        .empty-state{text-align:center;padding:50px 20px;color:var(--text-muted)}
-        .empty-state i{font-size:50px;margin-bottom:15px;opacity:.5}
-
-        .code-input-group{display:flex;gap:8px;justify-content:center}
-        .code-input{width:42px;height:46px;text-align:center;font-size:18px;font-weight:700;background:var(--bg-input);border:1px solid var(--border);border-radius:8px;color:var(--text-primary)}
-
         .loading-spinner{width:18px;height:18px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;display:inline-block}
         .hidden{display:none!important}
         .flex{display:flex}
-        .gap-5{gap:5px}
-        .gap-10{gap:10px}
+        .gap-5{gap:5px}.gap-10{gap:10px}
         .items-center{align-items:center}
         .justify-between{justify-content:space-between}
         .w-full{width:100%}
         .text-center{text-align:center}
-        .mt-10{margin-top:10px}
-        .mt-20{margin-top:20px}
-        .mb-10{margin-bottom:10px}
-        .mb-20{margin-bottom:20px}
-        .text-sm{font-size:13px}
-        .text-xs{font-size:11px}
+        .mt-10{margin-top:10px}.mt-20{margin-top:20px}.mb-10{margin-bottom:10px}.mb-20{margin-bottom:20px}
+        .text-sm{font-size:13px}.text-xs{font-size:11px}
         .text-muted{color:var(--text-muted)}
         .text-error{color:var(--error)}
         .text-success{color:var(--success)}
@@ -193,7 +162,8 @@
             .stats-grid{grid-template-columns:1fr}
             .nav-menu{display:none}
             .mobile-menu-btn{display:block!important}
-            .getkey-container{padding:0 15px}
+            .getkey-box{padding:25px}
+            .getkey-box .key-result code{font-size:20px}
         }
         .mobile-menu-btn{display:none;background:0 0;border:none;color:var(--text-primary);font-size:22px;cursor:pointer}
     </style>
@@ -216,17 +186,17 @@
     <div id="app">
         <!-- HOME -->
         <div id="page-home" class="page-section active">
-            <section class="hero"><div class="container"><div class="hero-content">
+            <section class="hero"><div class="container">
                 <h1>Sistema de Keys com HWID</h1>
-                <p>Link único por usuário. Após completar o Linkvertise, o HWID aparece na URL. Se compartilhar o link, o sistema detecta e bloqueia.</p>
+                <p>Linkvertise → Redireciona → Botão GET KEY → Key vinculada ao HWID. Se compartilhar = BLOQUEADO.</p>
                 <div class="hero-buttons"><a onclick="navigateTo('register')" class="btn btn-primary btn-lg">Teste Grátis</a><a onclick="navigateTo('login')" class="btn btn-outline btn-lg">Entrar</a></div>
-            </div></div></section>
+            </div></section>
             <section class="features"><div class="container"><h2 class="section-title">Como Funciona</h2>
                 <div class="features-grid">
-                    <div class="feature-card"><i class="fas fa-link"></i><h3>1. Link Único</h3><p>Usuário recebe link do projeto</p></div>
-                    <div class="feature-card"><i class="fas fa-tasks"></i><h3>2. Linkvertise</h3><p>Completa a verificação</p></div>
-                    <div class="feature-card"><i class="fas fa-fingerprint"></i><h3>3. HWID na URL</h3><p>HWID aparece no link</p></div>
-                    <div class="feature-card"><i class="fas fa-shield-alt"></i><h3>4. Anti-Share</h3><p>Se compartilhar → BLOQUEADO</p></div>
+                    <div class="feature-card"><i class="fas fa-link"></i><h3>1. Linkvertise</h3><p>Usuário completa verificação</p></div>
+                    <div class="feature-card"><i class="fas fa-redo"></i><h3>2. Redireciona</h3><p>Volta para página da key</p></div>
+                    <div class="feature-card"><i class="fas fa-hand-pointer"></i><h3>3. GET KEY</h3><p>Um botão, 5 segundos</p></div>
+                    <div class="feature-card"><i class="fas fa-shield-alt"></i><h3>4. Anti-Share</h3><p>HWID vinculado, sem compartilhar</p></div>
                 </div>
             </div></section>
         </div>
@@ -243,26 +213,10 @@
         <!-- REGISTER -->
         <div id="page-register" class="page-section"><div class="auth-container"><div class="auth-card">
             <div class="auth-header"><i class="fas fa-user-plus"></i><h2>Criar Conta</h2></div>
-            <div id="regStep1">
-                <div class="form-group"><label>Nome</label><input type="text" id="regUsername"></div>
-                <div class="form-group"><label>Email</label><input type="email" id="regEmail"></div>
-                <div class="form-group"><label>Senha</label><input type="password" id="regPassword"></div>
-                <button class="btn btn-primary w-full" onclick="handleRegister()">Criar Conta</button>
-            </div>
-            <div id="regStep2" class="hidden">
-                <div class="text-center mb-20"><i class="fas fa-envelope" style="font-size:42px;color:var(--primary)"></i><h3 style="margin-top:12px">Verifique</h3><p class="text-muted">Código: <strong id="verifyEmailDisplay" style="color:var(--primary-light)"></strong></p></div>
-                <div class="code-input-group">
-                    <input type="text" class="code-input" maxlength="1" oninput="handleCodeInput(event)" onkeydown="handleCodeKeydown(event)">
-                    <input type="text" class="code-input" maxlength="1" oninput="handleCodeInput(event)" onkeydown="handleCodeKeydown(event)">
-                    <input type="text" class="code-input" maxlength="1" oninput="handleCodeInput(event)" onkeydown="handleCodeKeydown(event)">
-                    <input type="text" class="code-input" maxlength="1" oninput="handleCodeInput(event)" onkeydown="handleCodeKeydown(event)">
-                    <input type="text" class="code-input" maxlength="1" oninput="handleCodeInput(event)" onkeydown="handleCodeKeydown(event)">
-                    <input type="text" class="code-input" maxlength="1" oninput="handleCodeInput(event)" onkeydown="handleCodeKeydown(event)">
-                </div>
-                <div class="timer text-center mt-10" id="codeTimer" style="color:var(--warning);font-size:11px"></div>
-                <button class="btn btn-primary w-full mt-20" onclick="verifyEmail()">Verificar</button>
-                <div class="form-footer mt-10"><a onclick="resendCode()" id="resendLink">Reenviar (60s)</a></div>
-            </div>
+            <div class="form-group"><label>Nome</label><input type="text" id="regUsername"></div>
+            <div class="form-group"><label>Email</label><input type="email" id="regEmail"></div>
+            <div class="form-group"><label>Senha</label><input type="password" id="regPassword"></div>
+            <button class="btn btn-primary w-full" onclick="handleRegister()">Criar Conta</button>
             <div class="form-footer">Já tem conta? <a onclick="navigateTo('login')">Entrar</a></div>
         </div></div></div>
 
@@ -272,17 +226,17 @@
                 <button class="sidebar-link active" onclick="switchTab('home',this)"><i class="fas fa-home"></i> Home</button>
                 <button class="sidebar-link" onclick="switchTab('projects',this)"><i class="fas fa-folder"></i> Projetos</button>
                 <button class="sidebar-link" onclick="switchTab('keys',this)"><i class="fas fa-key"></i> Keys</button>
-                <button class="sidebar-link" onclick="switchTab('checkpoints',this)"><i class="fas fa-check-circle"></i> Checkpoints</button>
-                <button class="sidebar-link" onclick="switchTab('links',this)"><i class="fas fa-link"></i> Links HWID</button>
-                <button class="sidebar-link" onclick="switchTab('lua',this)"><i class="fas fa-code"></i> Script Lua</button>
-                <button class="sidebar-link" onclick="switchTab('stats',this)"><i class="fas fa-chart-bar"></i> Estatísticas</button>
-                <button class="sidebar-link" onclick="switchTab('settings',this)"><i class="fas fa-cog"></i> Configurações</button>
+                <button class="sidebar-link" onclick="switchTab('links',this)"><i class="fas fa-link"></i> Links</button>
+                <button class="sidebar-link" onclick="switchTab('stats',this)"><i class="fas fa-chart-bar"></i> Stats</button>
+                <button class="sidebar-link" onclick="switchTab('settings',this)"><i class="fas fa-cog"></i> Config</button>
             </div></aside>
             <main class="main-content" id="dashboardContent"></main>
         </div></div>
 
-        <!-- GETKEY PAGE (USUÁRIO FINAL) -->
-        <div id="page-getkey" class="page-section"><div class="getkey-container" id="getkeyContent"></div></div>
+        <!-- GETKEY PAGE -->
+        <div id="page-getkey" class="page-section">
+            <div class="getkey-page"><div class="getkey-box" id="getkeyBox"></div></div>
+        </div>
     </div>
 
     <!-- MODALS -->
@@ -291,33 +245,22 @@
         <input type="hidden" id="projectId">
         <div class="form-group"><label>Nome</label><input type="text" id="projectName"></div>
         <div class="form-group"><label>Descrição</label><textarea id="projectDescription" rows="3"></textarea></div>
-        <div class="form-group"><label>Status</label><select id="projectStatus"><option value="online">Online</option><option value="offline">Offline</option></select></div>
+        <div class="form-group"><label>URL de Retorno do Linkvertise</label><input type="text" id="linkvertiseReturnUrl" placeholder="https://cf-tp.github.io/ohkeygg/#getkey?id=PROJETO_ID" readonly></div>
         <div class="modal-actions"><button class="btn btn-outline" onclick="closeModal('projectModal')">Cancelar</button><button class="btn btn-primary" onclick="saveProject()">Salvar</button></div>
     </div></div>
 
     <div id="keyModal" class="modal"><div class="modal-content">
-        <div class="modal-header"><h3>Gerar Key</h3><button class="modal-close" onclick="closeModal('keyModal')">&times;</button></div>
+        <div class="modal-header"><h3>Gerar Key Manual</h3><button class="modal-close" onclick="closeModal('keyModal')">&times;</button></div>
         <div class="form-group"><label>Projeto</label><select id="keyProject"></select></div>
-        <div class="form-group"><label>Tipo</label><select id="keyType" onchange="toggleKeyDuration()"><option value="permanent">Permanente</option><option value="hours">Horas</option><option value="days">Dias</option><option value="weeks">Semanas</option><option value="months">Meses</option></select></div>
-        <div class="form-group" id="keyDurationGroup"><label>Duração</label><input type="number" id="keyDuration" value="1" min="1"></div>
-        <div class="modal-actions"><button class="btn btn-outline" onclick="closeModal('keyModal')">Cancelar</button><button class="btn btn-primary" onclick="generateKey()">Gerar Key</button></div>
-    </div></div>
-
-    <div id="checkpointModal" class="modal"><div class="modal-content">
-        <div class="modal-header"><h3>Checkpoint</h3><button class="modal-close" onclick="closeModal('checkpointModal')">&times;</button></div>
-        <div class="form-group"><label>Projeto</label><select id="checkpointProject"></select></div>
-        <div class="form-group"><label>Nome</label><input type="text" id="checkpointName"></div>
-        <div class="form-group"><label>Tipo</label><select id="checkpointType"><option value="linkvertise">Linkvertise</option><option value="lootlabs">LootLabs</option><option value="keyla">Keyla</option><option value="custom">URL</option></select></div>
-        <div class="form-group"><label>URL do Linkvertise</label><input type="url" id="checkpointUrl" placeholder="https://linkvertise.com/..."></div>
-        <div class="form-group"><label>Tempo Mín (s)</label><input type="number" id="checkpointMinTime" value="30" min="10"></div>
-        <div class="modal-actions"><button class="btn btn-outline" onclick="closeModal('checkpointModal')">Cancelar</button><button class="btn btn-primary" onclick="addCheckpoint()">Adicionar</button></div>
+        <div class="form-group"><label>Tipo</label><select id="keyType"><option value="permanent">Permanente</option><option value="hours">Horas</option><option value="days">Dias</option></select></div>
+        <div class="modal-actions"><button class="btn btn-outline" onclick="closeModal('keyModal')">Cancelar</button><button class="btn btn-primary" onclick="generateKey()">Gerar</button></div>
     </div></div>
 
     <script>
         // ============================================
-        // OhKeyGG - SISTEMA COMPLETO COM LINKVERTISE + HWID NA URL
+        // OhKeyGG - SISTEMA FINAL SIMPLES
+        // Linkvertise → Redireciona → Botão GET KEY → Key vinculada ao HWID
         // ============================================
-        const ENC_KEY = 'ohkeygg_2024';
         const BASE = 'https://cf-tp.github.io/ohkeygg';
 
         let currentUser = null;
@@ -326,34 +269,24 @@
         // DADOS
         let projects = JSON.parse(localStorage.getItem('ohkeygg_projects') || '[]');
         let keys = JSON.parse(localStorage.getItem('ohkeygg_keys') || '[]');
-        let checkpoints = JSON.parse(localStorage.getItem('ohkeygg_checkpoints') || '[]');
-        let users = JSON.parse(localStorage.getItem('ohkeygg_users_list') || '[]');
         let registeredUsers = JSON.parse(localStorage.getItem('ohkeygg_users') || '[]');
-        let hwidSessions = JSON.parse(localStorage.getItem('ohkeygg_sessions') || '{}');
-        let stats = JSON.parse(localStorage.getItem('ohkeygg_stats') || '{"blocked":0,"generated":0,"completed":0}');
-        let resendTimer = 60;
-        let resendInterval = null;
-        let charts = {};
+        let hwidKeys = JSON.parse(localStorage.getItem('ohkeygg_hwid_keys') || '{}'); // {projectId: {hwid: {key, createdAt}}}
+        let stats = JSON.parse(localStorage.getItem('ohkeygg_stats') || '{"blocked":0,"generated":0}');
 
-        function saveData() {
+        function save() {
             localStorage.setItem('ohkeygg_projects', JSON.stringify(projects));
             localStorage.setItem('ohkeygg_keys', JSON.stringify(keys));
-            localStorage.setItem('ohkeygg_checkpoints', JSON.stringify(checkpoints));
-            localStorage.setItem('ohkeygg_users_list', JSON.stringify(users));
             localStorage.setItem('ohkeygg_users', JSON.stringify(registeredUsers));
-            localStorage.setItem('ohkeygg_sessions', JSON.stringify(hwidSessions));
+            localStorage.setItem('ohkeygg_hwid_keys', JSON.stringify(hwidKeys));
             localStorage.setItem('ohkeygg_stats', JSON.stringify(stats));
         }
 
         function genHWID() {
             const d = [screen.width, screen.height, screen.colorDepth, navigator.hardwareConcurrency || 4, navigator.deviceMemory || 4, navigator.language, Intl.DateTimeFormat().resolvedOptions().timeZone].join('|');
-            let h = 0;
-            for (let i = 0; i < d.length; i++) { h = ((h << 5) - h) + d.charCodeAt(i);
-                h |= 0; }
+            let h = 0; for (let i = 0; i < d.length; i++) { h = ((h << 5) - h) + d.charCodeAt(i); h |= 0; }
             return 'HWID-' + Math.abs(h).toString(36).toUpperCase().substring(0, 12);
         }
 
-        // ==================== INIT ====================
         function init() {
             loadUserFromToken();
             checkAuthState();
@@ -365,406 +298,313 @@
             if (hash.startsWith('#getkey')) {
                 const params = new URLSearchParams(hash.split('?')[1] || '');
                 const projectId = params.get('id');
-                const urlHwid = params.get('hwid');
-                if (projectId) { showGetkeyPage(projectId, urlHwid); return; }
+                if (projectId) { showGetkeyPage(projectId); return; }
             }
             navigateTo('home');
         }
         window.addEventListener('hashchange', checkHash);
 
         function loadUserFromToken() {
-            if (token) { try { const p = JSON.parse(atob(token.split('.')[1]));
-                    currentUser = { id: p.userId, username: p.username, email: p.email, role: p.role }; } catch (e) { token = null;
-                    localStorage.removeItem('ohkeygg_token'); } }
+            if (token) { try { const p = JSON.parse(atob(token.split('.')[1])); currentUser = { id: p.userId, username: p.username, email: p.email, role: p.role }; } catch (e) { token = null; localStorage.removeItem('ohkeygg_token'); } }
         }
 
         function checkAuthState() {
-            const nl = document.getElementById('navLinks'),
-                nu = document.getElementById('navUser'),
-                nun = document.getElementById('navUsername');
+            const nl = document.getElementById('navLinks'), nu = document.getElementById('navUser'), nun = document.getElementById('navUsername');
             if (!nl || !nu || !nun) return;
-            if (currentUser) { nl.classList.add('hidden');
-                nu.classList.remove('hidden');
-                nun.textContent = currentUser.username; } else { nl.classList.remove('hidden');
-                nu.classList.add('hidden'); }
+            if (currentUser) { nl.classList.add('hidden'); nu.classList.remove('hidden'); nun.textContent = currentUser.username; } else { nl.classList.remove('hidden'); nu.classList.add('hidden'); }
         }
-
-        function genToken(u) { const h = btoa(JSON.stringify({ alg: 'HS256', typ: 'JWT' })), p = btoa(JSON.stringify({ userId: u.id, username: u.username, email: u.email, role: u.role, exp: Date.now() + 7 * 86400000 })); return `${h}.${p}.${btoa(ENC_KEY+u.id)}`; }
 
         function navigateTo(page) {
             window.location.hash = '';
             document.querySelectorAll('#app>.page-section').forEach(s => s.classList.remove('active'));
             const m = { home: 'page-home', login: 'page-login', register: 'page-register', dashboard: 'page-dashboard', getkey: 'page-getkey' };
-            const el = document.getElementById(m[page]);
-            if (el) el.classList.add('active');
+            const el = document.getElementById(m[page]); if (el) el.classList.add('active');
             if (page === 'dashboard' && !currentUser) return navigateTo('login');
-            if (page === 'dashboard') { renderDashboard();
-                switchTab('home', document.querySelector('.sidebar-link')); }
-            if (page === 'register') { document.getElementById('regStep1').classList.remove('hidden');
-                document.getElementById('regStep2').classList.add('hidden'); if (resendInterval) clearInterval(resendInterval); }
+            if (page === 'dashboard') { renderDashboard(); switchTab('home', document.querySelector('.sidebar-link')); }
             document.getElementById('mainNav').style.display = (page === 'getkey') ? 'none' : '';
             window.scrollTo(0, 0);
         }
 
-        function switchTab(tab, el) { document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active')); if (el) el.classList.add('active');
-            loadDashboardTab(tab); }
+        function switchTab(tab, el) {
+            document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+            if (el) el.classList.add('active');
+            document.querySelectorAll('#dashboardContent>.page-section').forEach(s => s.classList.remove('active'));
+            const tel = document.getElementById('tab-' + tab); if (tel) tel.classList.add('active');
+            switch (tab) { case 'home': loadHome(); break; case 'projects': loadProjects(); break; case 'keys': loadKeys(); break; case 'links': loadLinks(); break; case 'stats': loadStats(); break; case 'settings': loadSettings(); break; }
+        }
 
-        // ==================== GETKEY PAGE (FLUXO PRINCIPAL) ====================
-        function showGetkeyPage(projectId, urlHwid) {
+        // ==================== GETKEY PAGE (SIMPLES) ====================
+        function showGetkeyPage(projectId) {
             document.querySelectorAll('#app>.page-section').forEach(s => s.classList.remove('active'));
             document.getElementById('page-getkey').classList.add('active');
             document.getElementById('mainNav').style.display = 'none';
-            const container = document.getElementById('getkeyContent');
+
             const project = projects.find(p => p.id === projectId);
+            const box = document.getElementById('getkeyBox');
+            const realHWID = genHWID();
 
             if (!project || project.status === 'offline') {
-                container.innerHTML = `<div class="getkey-container"><div class="card text-center"><i class="fas fa-exclamation-triangle" style="font-size:50px;color:var(--error)"></i><h3>Projeto Offline</h3><p class="text-muted">Este projeto não está disponível.</p></div></div>`;
+                box.innerHTML = `<div class="icon"><i class="fas fa-exclamation-triangle" style="color:var(--error)"></i></div><h1>Indisponível</h1><p class="text-muted">Projeto offline ou não encontrado.</p>`;
                 return;
             }
 
-            const realHWID = genHWID();
-            const projectCPs = checkpoints.filter(cp => cp.projectId === projectId).sort((a, b) => a.order - b.order);
-
-            // ===== ETAPA 2: USUÁRIO JÁ TEM HWID NA URL (veio do Linkvertise) =====
-            if (urlHwid) {
-                // VERIFICAÇÃO: O HWID da URL bate com o HWID real do PC?
-                if (urlHwid !== realHWID) {
-                    // HWID NÃO BATE → BLOQUEAR
-                    stats.blocked = (stats.blocked || 0) + 1;
-                    saveData();
-                    container.innerHTML = `
-                        <div class="getkey-container">
-                            <div class="getkey-header"><i class="fas fa-shield-alt" style="font-size:50px;color:var(--error)"></i><h1 style="color:var(--error)">ACESSO BLOQUEADO</h1></div>
-                            <div class="hwid-display blocked">🔒 Seu HWID real: <strong>${realHWID}</strong></div>
-                            <div class="card text-center" style="border-color:var(--error);animation:shake 0.5s ease">
-                                <i class="fas fa-ban" style="font-size:60px;color:var(--error);margin-bottom:15px"></i>
-                                <h3 style="color:var(--error)">HWID NÃO CORRESPONDE</h3>
-                                <p class="text-muted">A URL contém o HWID <code style="background:var(--bg-input);padding:4px 8px;border-radius:4px;color:var(--error)">${urlHwid}</code></p>
-                                <p class="text-muted">Mas seu HWID real é <code style="background:var(--bg-input);padding:4px 8px;border-radius:4px;color:var(--success)">${realHWID}</code></p>
-                                <p class="text-error mt-10" style="font-weight:600">🚫 Este link foi compartilhado! Cada link é válido apenas para o computador que o gerou.</p>
-                                <p class="text-muted text-xs mt-10">O proprietário original do link já teve o HWID vinculado. Você não pode usar o link de outra pessoa.</p>
-                            </div>
-                        </div>
-                    `;
-                    return;
-                }
-
-                // HWID BATE → Mostrar checkpoints para completar
-                // Verificar se já completou
-                if (hwidSessions[projectId] && hwidSessions[projectId][realHWID] && hwidSessions[projectId][realHWID].completed) {
-                    const sess = hwidSessions[projectId][realHWID];
-                    container.innerHTML = renderKeyGeneratedUI(project, realHWID, sess.key);
-                    return;
-                }
-
-                // Mostrar página de checkpoints
-                container.innerHTML = renderCheckpointPage(project, realHWID, projectId, projectCPs);
-                return;
-            }
-
-            // ===== ETAPA 1: USUÁRIO ACABOU DE CHEGAR (sem HWID na URL) =====
-            // Mostrar Linkvertise primeiro
-            const mainCP = projectCPs[0]; // Primeiro checkpoint
-            if (!mainCP) {
-                // Sem checkpoints, gerar key direto
-                const key = generateKeyForUser(projectId, realHWID, project);
-                container.innerHTML = renderKeyGeneratedUI(project, realHWID, key);
-                return;
-            }
-
-            // Mostrar página do Linkvertise
-            const redirectUrl = `${BASE}/#getkey?id=${projectId}&hwid=${realHWID}`;
-            container.innerHTML = `
-                <div class="getkey-container">
-                    <div class="getkey-header"><i class="fas fa-key" style="font-size:50px;color:var(--primary)"></i><h1>${esc(project.name)}</h1><p class="text-muted">Complete a verificação para continuar</p></div>
-                    <div class="hwid-display">🔒 HWID detectado: <strong>${realHWID}</strong></div>
-                    <div class="step-indicator">
-                        <div class="step active"><div class="step-num">1</div><span>Linkvertise</span></div>
-                        <div class="step"><div class="step-num">2</div><span>Checkpoints</span></div>
-                        <div class="step"><div class="step-num">3</div><span>Key Gerada</span></div>
-                    </div>
-                    <div class="card text-center">
-                        <i class="fas fa-external-link-alt" style="font-size:40px;color:var(--primary);margin-bottom:15px"></i>
-                        <h3>Etapa 1: Linkvertise</h3>
-                        <p class="text-muted mb-20">Clique no botão abaixo para abrir o Linkvertise. Após completar, você será redirecionado automaticamente.</p>
-                        <a href="${mainCP.url}" target="_blank" class="btn btn-primary btn-lg w-full" onclick="trackLinkvertiseClick('${projectId}','${realHWID}')">
-                            <i class="fas fa-external-link-alt"></i> Abrir Linkvertise
-                        </a>
-                        <p class="text-xs text-muted mt-10">Após completar o Linkvertise, volte para esta página.</p>
-                        <button class="btn btn-success w-full mt-10" onclick="simulateLinkvertiseComplete('${projectId}','${realHWID}')">
-                            <i class="fas fa-check"></i> Já completei o Linkvertise
-                        </button>
-                    </div>
-                </div>
-            `;
-        }
-
-        function trackLinkvertiseClick(pid, hwid) {
-            hwidSessions[pid] = hwidSessions[pid] || {};
-            hwidSessions[pid][hwid] = { startedAt: Date.now(), completed: false, step: 'linkvertise_clicked' };
-            saveData();
-        }
-
-        function simulateLinkvertiseComplete(pid, hwid) {
-            // Simular que o usuário completou o Linkvertise e foi redirecionado
-            window.location.hash = `#getkey?id=${pid}&hwid=${hwid}`;
-        }
-
-        function renderCheckpointPage(project, hwid, projectId, cps) {
-            // Pular o primeiro checkpoint (Linkvertise) pois já foi "completado"
-            const remainingCPs = cps.slice(1);
-
-            if (remainingCPs.length === 0) {
-                // Todos checkpoints completados, gerar key
-                const key = generateKeyForUser(projectId, hwid, project);
-                return renderKeyGeneratedUI(project, hwid, key);
-            }
-
-            let html = `
-                <div class="getkey-container">
-                    <div class="getkey-header"><i class="fas fa-check-circle" style="font-size:50px;color:var(--success)"></i><h1>Linkvertise Concluído!</h1><p class="text-muted">${esc(project.name)}</p></div>
-                    <div class="hwid-display">🔒 HWID: <strong>${hwid}</strong> <span class="text-xs text-muted">(vinculado na URL)</span></div>
-                    <div class="step-indicator">
-                        <div class="step done"><div class="step-num">✓</div><span>Linkvertise</span></div>
-                        <div class="step active"><div class="step-num">2</div><span>Checkpoints</span></div>
-                        <div class="step"><div class="step-num">3</div><span>Key</span></div>
-                    </div>
-                    <p class="text-muted mb-20">Agora complete os checkpoints abaixo:</p>
-            `;
-
-            remainingCPs.forEach((cp, i) => {
-                html += `
-                    <div class="checkpoint-card" id="cp-${cp.id}">
-                        <h4><span style="background:var(--gradient);width:28px;height:28px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:13px">${i+1}</span> ${esc(cp.name)}</h4>
-                        <p class="text-xs text-muted mb-10">${cp.type.toUpperCase()} | Tempo: ${cp.minTime}s</p>
-                        <a href="${cp.url}" target="_blank" class="btn btn-outline w-full mb-10" onclick="startCP('${cp.id}',${cp.minTime})"><i class="fas fa-external-link-alt"></i> Abrir</a>
-                        <div class="progress-bar hidden" id="prog-${cp.id}"><div class="progress-fill" id="fill-${cp.id}"></div></div>
-                        <p class="text-xs text-muted hidden" id="timer-${cp.id}">Aguardando...</p>
-                        <p class="text-success text-sm hidden" id="done-${cp.id}"><i class="fas fa-check-circle"></i> Concluído!</p>
-                    </div>
+            // Verificar se esse HWID já pegou key
+            if (hwidKeys[projectId] && hwidKeys[projectId][realHWID]) {
+                const existing = hwidKeys[projectId][realHWID];
+                box.innerHTML = `
+                    <div class="icon"><i class="fas fa-check-circle" style="color:var(--success);font-size:60px"></i></div>
+                    <h1 style="color:var(--success)">Key Já Gerada!</h1>
+                    <p class="text-muted">${esc(project.name)}</p>
+                    <div class="hwid-badge">🔒 ${realHWID}</div>
+                    <div class="key-result"><p class="text-sm text-muted mb-10">Sua Key:</p><code>${existing.key}</code></div>
+                    <p class="warning-text"><i class="fas fa-exclamation-triangle"></i> Esta key é vinculada ao seu HWID. Não compartilhe!</p>
+                    <button class="btn btn-copy w-full mt-10" onclick="copyText('${existing.key}')"><i class="fas fa-copy"></i> Copiar Key</button>
+                    <p class="text-xs text-muted mt-10">Gerada em: ${new Date(existing.createdAt).toLocaleString()}</p>
                 `;
-            });
+                return;
+            }
 
-            html += `
-                    <button class="btn btn-success w-full btn-lg hidden" id="genKeyBtn" onclick="finishAll('${projectId}','${hwid}')"><i class="fas fa-key"></i> Gerar Minha Key</button>
-                    <div id="keyResult"></div>
+            // Mostrar botão GET KEY
+            box.innerHTML = `
+                <div class="icon"><i class="fas fa-key"></i></div>
+                <h1>${esc(project.name)}</h1>
+                <p class="text-muted">Sua key será vinculada ao seu HWID</p>
+                <div class="hwid-badge">🔒 ${realHWID}</div>
+                <div id="getkeyAction">
+                    <button class="btn btn-primary btn-xl" onclick="startGetKey('${projectId}','${realHWID}')" id="getKeyBtn">
+                        <i class="fas fa-key"></i> GET KEY
+                    </button>
                 </div>
+                <p class="text-xs text-muted mt-10">Clique no botão para gerar sua key única</p>
             `;
-            return html;
         }
 
-        function startCP(cpId, minTime) {
-            const prog = document.getElementById('prog-' + cpId);
-            const fill = document.getElementById('fill-' + cpId);
-            const timer = document.getElementById('timer-' + cpId);
-            const done = document.getElementById('done-' + cpId);
-            if (!prog || !fill || !timer || !done) return;
-            prog.classList.remove('hidden');
-            timer.classList.remove('hidden');
-            let elapsed = 0;
-            const total = minTime * 1000;
-            const intv = setInterval(() => {
-                elapsed += 100;
-                const pct = Math.min((elapsed / total) * 100, 100);
-                fill.style.width = pct + '%';
-                timer.textContent = `⏳ ${Math.max(Math.ceil((total-elapsed)/1000),0)}s`;
-                if (elapsed >= total) { clearInterval(intv);
-                    prog.classList.add('hidden');
-                    timer.classList.add('hidden');
-                    done.classList.remove('hidden');
-                    document.getElementById('cp-' + cpId).classList.add('completed');
-                    checkAllDone(); }
-            }, 100);
-            if (!window._cpt) window._cpt = {};
-            window._cpt[cpId] = intv;
+        function startGetKey(projectId, hwid) {
+            const btn = document.getElementById('getKeyBtn');
+            const actionDiv = document.getElementById('getkeyAction');
+            if (!btn || !actionDiv) return;
+
+            btn.disabled = true;
+            btn.innerHTML = '<div class="loading-spinner"></div> Gerando...';
+
+            // Countdown de 5 segundos
+            let count = 5;
+            actionDiv.innerHTML = `
+                <div class="countdown-circle" id="countdownCircle">${count}</div>
+                <p class="text-muted">Gerando sua key...</p>
+            `;
+
+            const circle = document.getElementById('countdownCircle');
+            const interval = setInterval(() => {
+                count--;
+                if (circle) circle.textContent = count;
+                if (count <= 0) {
+                    clearInterval(interval);
+                    // Gerar key
+                    const key = generateKeyForHWID(projectId, hwid);
+                    const project = projects.find(p => p.id === projectId);
+
+                    actionDiv.innerHTML = `
+                        <div class="key-result"><p class="text-sm text-muted mb-10">✅ Key Gerada!</p><code>${key}</code></div>
+                        <button class="btn btn-copy w-full mt-10" onclick="copyText('${key}')"><i class="fas fa-copy"></i> Copiar Key</button>
+                    `;
+
+                    // Atualizar o box inteiro
+                    setTimeout(() => {
+                        document.getElementById('getkeyBox').innerHTML = `
+                            <div class="icon"><i class="fas fa-check-circle" style="color:var(--success);font-size:60px"></i></div>
+                            <h1 style="color:var(--success)">Key Gerada!</h1>
+                            <p class="text-muted">${esc(project?.name||'')}</p>
+                            <div class="hwid-badge">🔒 ${hwid}</div>
+                            <div class="key-result"><p class="text-sm text-muted mb-10">Sua Key:</p><code>${key}</code></div>
+                            <p class="warning-text"><i class="fas fa-exclamation-triangle"></i> Key vinculada ao seu HWID. Não compartilhe!</p>
+                            <button class="btn btn-copy w-full mt-10" onclick="copyText('${key}')"><i class="fas fa-copy"></i> Copiar Key</button>
+                        `;
+                    }, 2000);
+                }
+            }, 1000);
         }
 
-        function checkAllDone() {
-            const all = document.querySelectorAll('.checkpoint-card .text-success:not(.hidden)');
-            const total = document.querySelectorAll('.checkpoint-card');
-            if (all.length >= total.length) { const btn = document.getElementById('genKeyBtn'); if (btn) btn.classList.remove('hidden'); }
-        }
-
-        function finishAll(pid, hwid) {
-            const project = projects.find(p => p.id === pid);
-            const key = generateKeyForUser(pid, hwid, project);
-            document.getElementById('keyResult').innerHTML = renderKeyGeneratedUI(project, hwid, key).replace('getkey-container">', '').replace('</div>', '');
-            document.getElementById('genKeyBtn').classList.add('hidden');
-            document.querySelectorAll('.checkpoint-card').forEach(c => c.style.opacity = '0.5');
-        }
-
-        function generateKeyForUser(pid, hwid, project) {
+        function generateKeyForHWID(projectId, hwid) {
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             let key = 'OHKEY-';
             for (let i = 0; i < 4; i++) { for (let j = 0; j < 4; j++) key += chars.charAt(Math.floor(Math.random() * chars.length)); if (i < 3) key += '-'; }
-            hwidSessions[pid] = hwidSessions[pid] || {};
-            hwidSessions[pid][hwid] = { startedAt: Date.now(), completed: true, key, completedAt: new Date().toISOString() };
-            keys.push({ id: 'key_' + Date.now(), key, projectId: pid, project: project ? project.name : '', type: 'individual', status: 'active', hwid, expires: 'Nunca' });
+
+            // Salvar vinculação HWID
+            hwidKeys[projectId] = hwidKeys[projectId] || {};
+            hwidKeys[projectId][hwid] = { key, createdAt: new Date().toISOString() };
+
+            // Adicionar na lista de keys
+            const project = projects.find(p => p.id === projectId);
+            keys.push({ id: 'key_' + Date.now(), key, projectId, project: project ? project.name : '', type: 'hwid', status: 'active', hwid, expires: 'Nunca', createdAt: new Date().toISOString() });
             if (project) project.keys = (project.keys || 0) + 1;
             stats.generated = (stats.generated || 0) + 1;
-            stats.completed = (stats.completed || 0) + 1;
-            saveData();
+            save();
             return key;
         }
 
-        function renderKeyGeneratedUI(project, hwid, key) {
-            return `
-                <div class="getkey-container">
-                    <div class="getkey-header"><i class="fas fa-check-circle" style="font-size:50px;color:var(--success)"></i><h1>Key Gerada!</h1><p class="text-muted">${esc(project?.name||'')}</p></div>
-                    <div class="step-indicator">
-                        <div class="step done"><div class="step-num">✓</div><span>Linkvertise</span></div>
-                        <div class="step done"><div class="step-num">✓</div><span>Checkpoints</span></div>
-                        <div class="step done"><div class="step-num">✓</div><span>Key</span></div>
-                    </div>
-                    <div class="key-display"><p class="text-sm text-muted mb-10">Sua Key (vinculada ao HWID):</p><code>${key}</code></div>
-                    <div class="card text-center"><p class="text-muted text-sm">HWID: <strong>${hwid}</strong></p><p class="text-xs text-muted mt-10">⚠️ Esta key só funciona neste PC. Compartilhar = BLOQUEIO.</p></div>
-                    <button class="btn btn-copy w-full mt-10" onclick="copyText('${key}')"><i class="fas fa-copy"></i> Copiar Key</button>
-                </div>
-            `;
-        }
-
-        function copyText(t) { navigator.clipboard.writeText(t).then(() => showNotification('Copiado!', 'success')); }
+        function copyText(t) { navigator.clipboard.writeText(t).then(() => showNotification('Copiado!', 'success')).catch(() => showNotification('Erro ao copiar', 'error')); }
 
         // ==================== AUTH ====================
         function handleRegister() {
-            const u = document.getElementById('regUsername')?.value.trim(),
-                e = document.getElementById('regEmail')?.value.trim().toLowerCase(),
-                p = document.getElementById('regPassword')?.value;
+            const u = document.getElementById('regUsername')?.value.trim(), e = document.getElementById('regEmail')?.value.trim().toLowerCase(), p = document.getElementById('regPassword')?.value;
             if (!u || !e || !p) return showNotification('Preencha tudo', 'error');
             if (p.length < 8) return showNotification('Senha: mín 8', 'error');
             if (registeredUsers.find(x => x.email === e)) return showNotification('Email já existe', 'error');
-            const code = String(Math.floor(100000 + Math.random() * 900000));
-            sessionStorage.setItem('ohkeygg_pending', JSON.stringify({ username: u, email: e, password: p, code, exp: Date.now() + 600000 }));
-            document.getElementById('regStep1').classList.add('hidden');
-            document.getElementById('regStep2').classList.remove('hidden');
-            document.getElementById('verifyEmailDisplay').textContent = e;
-            document.querySelectorAll('.code-input').forEach(i => i.value = '');
-            document.querySelector('.code-input')?.focus();
-            startResendTimer();
-            showCodeModal(e, code);
+            const newUser = { id: 'u_' + Date.now(), username: u, email: e, password: p, role: 'user' };
+            registeredUsers.push(newUser); save();
+            token = genToken({ id: newUser.id, username: u, email: e, role: 'user' });
+            currentUser = { id: newUser.id, username: u, email: e, role: 'user' };
+            localStorage.setItem('ohkeygg_token', token);
+            checkAuthState();
+            showNotification('✅ Conta criada!', 'success');
+            setTimeout(() => navigateTo('dashboard'), 1000);
         }
 
-        function showCodeModal(email, code) { const old = document.getElementById('emailSentModal'); if (old) old.remove(); const h = `<div id="emailSentModal" class="modal show" style="display:flex;z-index:5000"><div class="modal-content" style="max-width:400px;text-align:center"><button onclick="document.getElementById('emailSentModal').remove()" style="float:right;font-size:24px;background:none;border:none;color:var(--text-secondary);cursor:pointer">&times;</button><i class="fas fa-check-circle" style="font-size:45px;color:var(--success);margin:10px 0"></i><p class="text-muted">Código: <strong style="color:var(--primary-light);font-size:20px">${email}</strong></p><div style="background:var(--bg-input);padding:15px;border-radius:10px;border:2px dashed var(--primary);margin:15px 0"><span style="font-size:32px;font-weight:800;color:var(--primary-light);letter-spacing:6px;font-family:monospace">${code}</span></div><button class="btn btn-primary w-full" onclick="document.getElementById('emailSentModal').remove()">OK</button></div></div>`; document.body.insertAdjacentHTML('beforeend', h); setTimeout(() => { const m = document.getElementById('emailSentModal'); if (m) m.remove(); }, 10000); }
+        function handleLogin() {
+            const e = document.getElementById('loginEmail')?.value.trim().toLowerCase(), p = document.getElementById('loginPassword')?.value;
+            if (!e || !p) return;
+            const u = registeredUsers.find(x => x.email === e);
+            if (!u) return showNotification('Email não encontrado', 'error');
+            if (u.password !== p) return showNotification('Senha incorreta', 'error');
+            token = genToken({ id: u.id, username: u.username, email: u.email, role: u.role });
+            currentUser = { id: u.id, username: u.username, email: u.email, role: u.role };
+            localStorage.setItem('ohkeygg_token', token);
+            checkAuthState();
+            showNotification('✅ Login!', 'success');
+            setTimeout(() => navigateTo('dashboard'), 800);
+        }
 
-        function startResendTimer() { resendTimer = 60; const rl = document.getElementById('resendLink'),
-                td = document.getElementById('codeTimer'); if (!rl || !td) return;
-            rl.style.pointerEvents = 'none';
-            rl.style.opacity = '0.5'; if (resendInterval) clearInterval(resendInterval);
-            resendInterval = setInterval(() => { resendTimer--;
-                td.textContent = `Reenvio em ${resendTimer}s`;
-                rl.textContent = `Reenviar (${resendTimer}s)`; if (resendTimer <= 0) { clearInterval(resendInterval);
-                    rl.style.pointerEvents = 'auto';
-                    rl.style.opacity = '1';
-                    rl.textContent = 'Reenviar';
-                    td.textContent = ''; } }, 1000); }
-
-        function resendCode() { if (resendTimer > 0) return; const p = JSON.parse(sessionStorage.getItem('ohkeygg_pending')); if (!p) return;
-            p.code = String(Math.floor(100000 + Math.random() * 900000));
-            p.exp = Date.now() + 600000;
-            sessionStorage.setItem('ohkeygg_pending', JSON.stringify(p));
-            document.querySelectorAll('.code-input').forEach(i => i.value = '');
-            document.querySelector('.code-input')?.focus();
-            startResendTimer();
-            showCodeModal(p.email, p.code); }
-
-        function handleCodeInput(e) { e.target.value = e.target.value.replace(/[^0-9]/g, ''); if (e.target.value.length === 1) { const n = e.target.nextElementSibling; if (n && n.classList.contains('code-input')) n.focus(); } }
-
-        function handleCodeKeydown(e) { if (e.key === 'Backspace' && e.target.value.length === 0) { const p = e.target.previousElementSibling; if (p && p.classList.contains('code-input')) p.focus(); } }
-
-        function getCode() { let c = ''; document.querySelectorAll('.code-input').forEach(i => c += i.value); return c; }
-
-        function verifyEmail() { const code = getCode(); if (code.length !== 6) return; const p = JSON.parse(sessionStorage.getItem('ohkeygg_pending')); if (!p || Date.now() > p.exp) return showNotification('Expirado', 'error'); if (code !== p.code) return showNotification('Inválido', 'error'); const u = { id: 'u_' + Date.now(), username: p.username, email: p.email, password: p.password, role: 'user', verified: true }; registeredUsers.push(u); users.push({ id: u.id, username: p.username, email: p.email, keys: 0, lastActive: new Date().toISOString().split('T')[0], status: 'active' }); saveData(); token = genToken({ id: u.id, username: p.username, email: p.email, role: 'user' }); currentUser = { id: u.id, username: p.username, email: p.email, role: 'user' }; localStorage.setItem('ohkeygg_token', token); sessionStorage.removeItem('ohkeygg_pending'); if (resendInterval) clearInterval(resendInterval); showNotification('✅ Conta criada!', 'success'); checkAuthState(); setTimeout(() => navigateTo('dashboard'), 1000); }
-
-        function handleLogin() { const e = document.getElementById('loginEmail')?.value.trim().toLowerCase(), p = document.getElementById('loginPassword')?.value; if (!e || !p) return; const u = registeredUsers.find(x => x.email === e); if (!u) return showNotification('Email não encontrado', 'error'); if (u.password !== p) return showNotification('Senha incorreta', 'error'); token = genToken({ id: u.id, username: u.username, email: u.email, role: u.role }); currentUser = { id: u.id, username: u.username, email: u.email, role: u.role }; localStorage.setItem('ohkeygg_token', token); if (!users.find(x => x.id === u.id)) { users.push({ id: u.id, username: u.username, email: u.email, keys: 0, lastActive: new Date().toISOString().split('T')[0], status: 'active' });
-            saveData(); } checkAuthState(); showNotification('✅ Login!', 'success'); setTimeout(() => navigateTo('dashboard'), 800); }
+        function genToken(u) { const h = btoa(JSON.stringify({ alg: 'HS256', typ: 'JWT' })), p = btoa(JSON.stringify({ userId: u.id, username: u.username, email: u.email, role: u.role, exp: Date.now() + 7 * 86400000 })); return `${h}.${p}.${btoa('ohkeygg'+u.id)}`; }
 
         function logout() { token = null; currentUser = null; localStorage.removeItem('ohkeygg_token'); checkAuthState(); window.location.hash = ''; navigateTo('home'); }
 
         // ==================== DASHBOARD ====================
-        function renderDashboard() { const dc = document.getElementById('dashboardContent'); if (!dc) return;
-            dc.innerHTML = `<div id="tab-home" class="page-section active"><h2 class="mb-20">Visão Geral</h2><div class="stats-grid" id="dashStats"></div></div><div id="tab-projects" class="page-section"><div class="flex justify-between items-center mb-20"><h2>Projetos</h2><button class="btn btn-primary" onclick="showModal('projectModal')"><i class="fas fa-plus"></i> Novo</button></div><div class="projects-grid" id="projectsList"></div></div><div id="tab-keys" class="page-section"><div class="flex justify-between items-center mb-20"><h2>Keys</h2><button class="btn btn-primary" onclick="showModal('keyModal')"><i class="fas fa-plus"></i> Gerar</button></div><div class="card"><table><thead><tr><th>Key</th><th>Projeto</th><th>HWID</th><th>Status</th><th>Ações</th></tr></thead><tbody id="keysTableBody"></tbody></table></div></div><div id="tab-checkpoints" class="page-section"><div class="flex justify-between items-center mb-20"><h2>Checkpoints</h2><button class="btn btn-primary" onclick="showModal('checkpointModal')"><i class="fas fa-plus"></i> Adicionar</button></div><div class="card"><div class="checkpoint-list" id="checkpointList"></div></div></div><div id="tab-links" class="page-section"><h2 class="mb-20">Links de Geração</h2><div class="card"><div class="form-group"><label>Projeto</label><select id="linkProjectSelect" onchange="updateLinkPreview()">${projects.map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join('')||'<option>Nenhum</option>'}</select></div><div id="linkPreview" class="mt-20"></div></div></div><div id="tab-lua" class="page-section"><h2 class="mb-20">Script Lua</h2><div class="card"><div id="luaPreview"></div></div></div><div id="tab-stats" class="page-section"><h2 class="mb-20">Estatísticas</h2><div class="stats-grid" id="detailedStats"></div></div><div id="tab-settings" class="page-section"><h2 class="mb-20">Configurações</h2><div class="card"><div class="form-group"><label>Username</label><input type="text" id="settingsUsername"></div><div class="form-group"><label>Nova Senha</label><input type="password" id="settingsPassword"></div><button class="btn btn-primary" onclick="saveSettings()">Salvar</button></div></div>`;
-            loadDashboardTab('home'); }
+        function renderDashboard() {
+            const dc = document.getElementById('dashboardContent'); if (!dc) return;
+            dc.innerHTML = `
+                <div id="tab-home" class="page-section active"><h2 class="mb-20">Visão Geral</h2><div class="stats-grid" id="dashStats"></div></div>
+                <div id="tab-projects" class="page-section"><div class="flex justify-between items-center mb-20"><h2>Projetos</h2><button class="btn btn-primary" onclick="showNewProject()"><i class="fas fa-plus"></i> Novo Projeto</button></div><div class="projects-grid" id="projectsList"></div></div>
+                <div id="tab-keys" class="page-section"><h2 class="mb-20">Keys Geradas</h2><div class="card"><table><thead><tr><th>Key</th><th>Projeto</th><th>HWID</th><th>Status</th><th>Data</th></tr></thead><tbody id="keysTableBody"></tbody></table></div></div>
+                <div id="tab-links" class="page-section"><h2 class="mb-20">Links de Geração</h2><div class="card" id="linksContent"></div></div>
+                <div id="tab-stats" class="page-section"><h2 class="mb-20">Estatísticas</h2><div class="stats-grid" id="detailedStats"></div></div>
+                <div id="tab-settings" class="page-section"><h2 class="mb-20">Configurações</h2><div class="card"><div class="form-group"><label>Username</label><input type="text" id="settingsUsername"></div><div class="form-group"><label>Nova Senha</label><input type="password" id="settingsPassword"></div><button class="btn btn-primary" onclick="saveSettings()">Salvar</button></div></div>
+            `;
+            loadHome();
+        }
 
-        function loadDashboardTab(tab) { document.querySelectorAll('#dashboardContent>.page-section').forEach(s => s.classList.remove('active')); const el = document.getElementById('tab-' + tab); if (el) el.classList.add('active'); switch (tab) { case 'home': loadHome(); break; case 'projects': loadProjects(); break; case 'keys': loadKeys(); break; case 'checkpoints': loadCPs(); break; case 'links': updateLinkPreview(); break; case 'lua': updateLuaPreview(); break; case 'stats': loadStats(); break; case 'settings': loadSettings(); break; } }
+        function loadHome() {
+            const c = document.getElementById('dashStats'); if (!c) return;
+            const totalKeys = Object.values(hwidKeys).reduce((acc, h) => acc + Object.keys(h).length, 0);
+            c.innerHTML = `
+                <div class="stat-card"><div class="stat-icon"><i class="fas fa-folder"></i></div><div class="stat-info"><h3>Projetos</h3><div class="stat-value">${projects.length}</div></div></div>
+                <div class="stat-card"><div class="stat-icon"><i class="fas fa-key"></i></div><div class="stat-info"><h3>Keys Geradas</h3><div class="stat-value">${stats.generated||0}</div></div></div>
+                <div class="stat-card"><div class="stat-icon"><i class="fas fa-users"></i></div><div class="stat-info"><h3>Usuários</h3><div class="stat-value">${registeredUsers.length}</div></div></div>
+                <div class="stat-card"><div class="stat-icon"><i class="fas fa-shield-alt"></i></div><div class="stat-info"><h3>Bloqueios</h3><div class="stat-value" style="color:var(--error)">${stats.blocked||0}</div></div></div>
+            `;
+        }
 
-        function loadHome() { const c = document.getElementById('dashStats'); if (!c) return;
-            c.innerHTML = `<div class="stat-card"><div class="stat-icon"><i class="fas fa-folder"></i></div><div class="stat-info"><h3>Projetos</h3><div class="stat-value">${projects.length}</div></div></div><div class="stat-card"><div class="stat-icon"><i class="fas fa-key"></i></div><div class="stat-info"><h3>Keys Ativas</h3><div class="stat-value">${keys.filter(k=>k.status==='active').length}</div></div></div><div class="stat-card"><div class="stat-icon"><i class="fas fa-link"></i></div><div class="stat-info"><h3>Sessões HWID</h3><div class="stat-value">${Object.keys(hwidSessions).length}</div></div></div><div class="stat-card"><div class="stat-icon"><i class="fas fa-shield-alt"></i></div><div class="stat-info"><h3>Bloqueios</h3><div class="stat-value" style="color:var(--error)">${stats.blocked||0}</div></div></div>`; }
+        function loadProjects() {
+            const c = document.getElementById('projectsList'); if (!c) return;
+            if (!projects.length) { c.innerHTML = `<div class="empty-state"><i class="fas fa-folder-open"></i><h3>Nenhum projeto</h3></div>`; return; }
+            c.innerHTML = projects.map(p => {
+                const returnUrl = `${BASE}/#getkey?id=${p.id}`;
+                return `
+                <div class="project-card">
+                    <div class="project-card-header"><div class="project-logo"><i class="fas fa-folder"></i></div><div class="project-info"><h4>${esc(p.name)}</h4><code class="text-xs text-muted">ID: ${p.id}</code></div></div>
+                    <div class="project-stats"><span class="badge ${p.status==='online'?'badge-success':'badge-danger'}">${p.status}</span><span class="text-xs text-muted">Keys: ${p.keys||0}</span></div>
+                    <p class="text-xs text-muted mb-10">URL Retorno Linkvertise:</p>
+                    <div class="link-box"><code>${returnUrl}</code><button class="btn btn-copy btn-sm" onclick="copyText('${returnUrl}')"><i class="fas fa-copy"></i></button></div>
+                    <div class="project-actions mt-10">
+                        <button class="btn btn-outline btn-sm" onclick="copyText('${returnUrl}')"><i class="fas fa-link"></i> Copiar Link</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteProject('${p.id}')"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>`;
+            }).join('');
+        }
 
-        function loadProjects() { const c = document.getElementById('projectsList'); if (!c) return; if (!projects.length) { c.innerHTML = `<div class="empty-state"><i class="fas fa-folder-open"></i><h3>Vazio</h3></div>`; return; }
-            c.innerHTML = projects.map(p => `<div class="project-card"><div class="project-card-header"><div class="project-logo"><i class="fas fa-folder"></i></div><div class="project-info"><h4>${esc(p.name)}</h4><code class="text-xs text-muted">ID: ${p.id}</code></div></div><div class="project-stats"><span class="badge ${p.status==='online'?'badge-success':'badge-danger'}">${p.status}</span><span class="text-xs text-muted">Keys: ${p.keys||0}</span></div><div class="project-actions"><button class="btn btn-outline btn-sm" onclick="copyGetkeyLink('${p.id}')"><i class="fas fa-link"></i> Link</button><button class="btn btn-outline btn-sm" onclick="editProject('${p.id}')"><i class="fas fa-edit"></i></button><button class="btn btn-danger btn-sm" onclick="deleteProject('${p.id}')"><i class="fas fa-trash"></i></button></div></div>`).join(''); }
+        function showNewProject() {
+            const name = prompt('Nome do projeto:');
+            if (!name) return;
+            const id = 'proj_' + Date.now();
+            projects.push({ id, name, description: '', status: 'online', keys: 0 });
+            save();
+            renderDashboard();
+            switchTab('projects', document.querySelectorAll('.sidebar-link')[1]);
+            const returnUrl = `${BASE}/#getkey?id=${id}`;
+            showNotification(`Projeto criado! URL: ${returnUrl}`, 'success');
+        }
 
-        function saveProject() { const id = document.getElementById('projectId')?.value, name = document.getElementById('projectName')?.value, desc = document.getElementById('projectDescription')?.value, status = document.getElementById('projectStatus')?.value; if (!name) return; if (id) { const i = projects.findIndex(p => p.id === id); if (i !== -1) { projects[i].name = name; projects[i].description = desc; projects[i].status = status; } } else { projects.push({ id: 'proj_' + Date.now(), name, description: desc, status, keys: 0 }); } saveData(); closeModal('projectModal'); renderDashboard(); loadDashboardTab('projects'); }
+        function deleteProject(id) { if (confirm('Excluir?')) { projects = projects.filter(p => p.id !== id); save(); renderDashboard(); switchTab('projects', document.querySelectorAll('.sidebar-link')[1]); } }
 
-        function editProject(id) { const p = projects.find(x => x.id === id); if (!p) return; document.getElementById('projectModalTitle').textContent = 'Editar'; document.getElementById('projectId').value = p.id; document.getElementById('projectName').value = p.name; document.getElementById('projectDescription').value = p.description || ''; document.getElementById('projectStatus').value = p.status; showModal('projectModal'); }
+        function loadKeys() {
+            const t = document.getElementById('keysTableBody'); if (!t) return;
+            if (!keys.length) { t.innerHTML = `<tr><td colspan="5" class="text-center text-muted">Nenhuma key gerada</td></tr>`; return; }
+            t.innerHTML = keys.map(k => `<tr><td><code style="font-size:11px">${k.key}</code></td><td>${esc(k.project)}</td><td>${k.hwid?k.hwid.substring(0,12)+'...':'Manual'}</td><td><span class="badge ${k.status==='active'?'badge-success':'badge-danger'}">${k.status}</span></td><td>${new Date(k.createdAt).toLocaleDateString()}</td></tr>`).join('');
+        }
 
-        function deleteProject(id) { if (confirm('Excluir?')) { projects = projects.filter(p => p.id !== id); saveData(); renderDashboard(); loadDashboardTab('projects'); } }
+        function loadLinks() {
+            const c = document.getElementById('linksContent'); if (!c) return;
+            if (!projects.length) { c.innerHTML = `<p class="text-muted">Crie um projeto primeiro.</p>`; return; }
+            c.innerHTML = `<p class="text-muted mb-10">Configure o Linkvertise com a URL de retorno abaixo:</p>` + projects.map(p => {
+                const url = `${BASE}/#getkey?id=${p.id}`;
+                return `<div class="link-box mb-10"><code>${url}</code><button class="btn btn-copy btn-sm" onclick="copyText('${url}')"><i class="fas fa-copy"></i> Copiar</button></div><p class="text-xs text-muted mb-10">Projeto: <strong>${esc(p.name)}</strong> | Keys: ${p.keys||0}</p>`;
+            }).join('<hr style="border-color:var(--border);margin:10px 0">');
+        }
 
-        function loadKeys() { const t = document.getElementById('keysTableBody'); if (!t) return; if (!keys.length) { t.innerHTML = `<tr><td colspan="5" class="text-center text-muted">Nenhuma</td></tr>`; return; }
-            t.innerHTML = keys.map(k => `<tr><td><code style="font-size:11px">${k.key}</code></td><td>${esc(k.project)}</td><td>${k.hwid?k.hwid.substring(0,12)+'...':'Livre'}</td><td><span class="badge ${k.status==='active'?'badge-success':'badge-danger'}">${k.status}</span></td><td><div class="flex gap-5">${k.status==='active'?`<button class="btn btn-outline btn-sm" onclick="revokeKey('${k.id}')"><i class="fas fa-ban"></i></button>`:''}<button class="btn btn-warning btn-sm" onclick="resetHWID('${k.id}')"><i class="fas fa-sync"></i></button></div></td></tr>`).join(''); }
-
-        function generateKey() { const pid = document.getElementById('keyProject')?.value; if (!pid) return; const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; let k = 'OHKEY-'; for (let i = 0; i < 4; i++) { for (let j = 0; j < 4; j++) k += chars.charAt(Math.floor(Math.random() * chars.length)); if (i < 3) k += '-'; } const proj = projects.find(p => p.id === pid); keys.unshift({ id: 'key_' + Date.now(), key: k, projectId: pid, project: proj ? proj.name : '', type: 'manual', status: 'active', hwid: null, expires: 'Nunca' }); if (proj) proj.keys = (proj.keys || 0) + 1; stats.generated = (stats.generated || 0) + 1; saveData(); closeModal('keyModal'); renderDashboard(); loadDashboardTab('keys'); showNotification(`Key: ${k}`, 'success'); }
-
-        function revokeKey(id) { const k = keys.find(x => x.id === id); if (k) { k.status = 'revoked'; saveData(); renderDashboard(); loadDashboardTab('keys'); } }
-
-        function resetHWID(id) { const k = keys.find(x => x.id === id); if (k) { k.hwid = null; saveData(); renderDashboard(); loadDashboardTab('keys'); } }
-
-        function toggleKeyDuration() { const g = document.getElementById('keyDurationGroup'); if (g) g.style.display = document.getElementById('keyType')?.value === 'permanent' ? 'none' : 'block'; }
-
-        function loadCPs() { const c = document.getElementById('checkpointList'); if (!c) return; if (!checkpoints.length) { c.innerHTML = `<div class="empty-state"><i class="fas fa-check-circle"></i><h3>Vazio</h3></div>`; return; }
-            c.innerHTML = [...checkpoints].sort((a, b) => a.order - b.order).map(cp => `<div class="checkpoint-item"><div style="flex:1"><h5>#${cp.order} ${esc(cp.name)}</h5><span class="text-xs text-muted">${cp.type} | ${cp.url.substring(0,40)}...</span></div><button class="btn btn-danger btn-sm" onclick="deleteCP('${cp.id}')"><i class="fas fa-trash"></i></button></div>`).join(''); }
-
-        function addCheckpoint() { const pid = document.getElementById('checkpointProject')?.value; if (!pid) return; const proj = projects.find(p => p.id === pid); checkpoints.push({ id: 'cp_' + Date.now(), projectId: pid, project: proj ? proj.name : '', name: document.getElementById('checkpointName')?.value || 'Linkvertise', type: document.getElementById('checkpointType')?.value || 'linkvertise', url: document.getElementById('checkpointUrl')?.value || '', minTime: parseInt(document.getElementById('checkpointMinTime')?.value) || 30, maxTime: parseInt(document.getElementById('checkpointMaxTime')?.value) || 120, order: checkpoints.length + 1 }); saveData(); closeModal('checkpointModal'); renderDashboard(); loadDashboardTab('checkpoints'); }
-
-        function deleteCP(id) { checkpoints = checkpoints.filter(cp => cp.id !== id); checkpoints.forEach((cp, i) => cp.order = i + 1); saveData(); renderDashboard(); loadDashboardTab('checkpoints'); }
-
-        function updateLinkPreview() { const sel = document.getElementById('linkProjectSelect'),
-                prev = document.getElementById('linkPreview'); if (!sel || !prev) return; const pid = sel.value,
-                proj = projects.find(p => p.id === pid), cps = checkpoints.filter(cp => cp.projectId === pid); const url = `${BASE}/#getkey?id=${pid}`;
-            prev.innerHTML = proj ? `<div class="link-box"><code>${url}</code><button class="btn btn-copy btn-sm" onclick="copyText('${url}')"><i class="fas fa-copy"></i> Copiar</button></div><p class="text-sm text-muted">Projeto: <strong>${esc(proj.name)}</strong> | Checkpoints: ${cps.length}</p><p class="text-xs text-muted mt-10">📌 Fluxo: Usuário acessa → Linkvertise → HWID na URL → Checkpoints → Key gerada</p><p class="text-xs text-error mt-10">🚫 Se compartilhar o link com HWID → BLOQUEADO (HWID não bate)</p>` : '<p class="text-muted">Selecione um projeto</p>'; }
-
-        function copyGetkeyLink(pid) { const url = `${BASE}/#getkey?id=${pid}`; navigator.clipboard.writeText(url).then(() => showNotification('Link copiado!', 'success')); }
-
-        function updateLuaPreview() { const prev = document.getElementById('luaPreview'); if (!prev) return; const pid = projects[0]?.id || ''; const url = `${BASE}/#getkey?id=${pid}`; const script = `-- OhKeyGG Key System
-        -- Acesse o link e complete o Linkvertise
-        -- Apos completar, o HWID aparecera na URL
-        -- Cole sua key abaixo:
-
-        local KEY = "OHKEY-XXXX-XXXX-XXXX"
-        local HWID = game:GetService("RbxAnalyticsService"):GetClientId()
-
-        print("[OhKeyGG] Seu HWID: " .. HWID)
-        print("[OhKeyGG] Acesse: ${url}")
-        setclipboard and setclipboard("${url}")`;
-            prev.innerHTML = `<h4 class="mb-10"><i class="fas fa-code"></i> Script</h4><button class="btn btn-copy btn-sm mb-10" onclick="copyText(document.getElementById('luaScriptText').value)"><i class="fas fa-copy"></i> Copiar</button><textarea id="luaScriptText" readonly class="lua-code">${script}</textarea>`; }
-
-        function loadStats() { const c = document.getElementById('detailedStats'); if (!c) return;
-            c.innerHTML = `<div class="stat-card"><div class="stat-icon"><i class="fas fa-key"></i></div><div class="stat-info"><h3>Keys Geradas</h3><div class="stat-value">${stats.generated||0}</div></div></div><div class="stat-card"><div class="stat-icon"><i class="fas fa-check-circle"></i></div><div class="stat-info"><h3>Completados</h3><div class="stat-value">${stats.completed||0}</div></div></div><div class="stat-card"><div class="stat-icon"><i class="fas fa-shield-alt"></i></div><div class="stat-info"><h3>Bloqueios</h3><div class="stat-value" style="color:var(--error)">${stats.blocked||0}</div></div></div>`; }
+        function loadStats() {
+            const c = document.getElementById('detailedStats'); if (!c) return;
+            c.innerHTML = `
+                <div class="stat-card"><div class="stat-icon"><i class="fas fa-key"></i></div><div class="stat-info"><h3>Keys Geradas</h3><div class="stat-value">${stats.generated||0}</div></div></div>
+                <div class="stat-card"><div class="stat-icon"><i class="fas fa-shield-alt"></i></div><div class="stat-info"><h3>Bloqueios</h3><div class="stat-value" style="color:var(--error)">${stats.blocked||0}</div></div></div>
+                <div class="stat-card"><div class="stat-icon"><i class="fas fa-link"></i></div><div class="stat-info"><h3>Projetos</h3><div class="stat-value">${projects.length}</div></div></div>
+            `;
+        }
 
         function loadSettings() { if (currentUser) document.getElementById('settingsUsername').value = currentUser.username; }
 
-        function saveSettings() { const u = document.getElementById('settingsUsername')?.value, p = document.getElementById('settingsPassword')?.value; if (currentUser && u) { currentUser.username = u; document.getElementById('navUsername').textContent = u; } const i = registeredUsers.findIndex(x => x.id === currentUser?.id); if (i !== -1) { if (u) registeredUsers[i].username = u; if (p) registeredUsers[i].password = p; saveData(); } showNotification('Salvo!', 'success'); }
+        function saveSettings() {
+            const u = document.getElementById('settingsUsername')?.value, p = document.getElementById('settingsPassword')?.value;
+            if (currentUser && u) { currentUser.username = u; document.getElementById('navUsername').textContent = u; }
+            const i = registeredUsers.findIndex(x => x.id === currentUser?.id);
+            if (i !== -1) { if (u) registeredUsers[i].username = u; if (p) registeredUsers[i].password = p; save(); }
+            showNotification('Salvo!', 'success');
+        }
 
-        function showModal(id) { const m = document.getElementById(id); if (!m) return;
-            m.classList.add('show'); if (id === 'keyModal' || id === 'checkpointModal') { ['keyProject', 'checkpointProject'].forEach(s => { const sel = document.getElementById(s); if (sel) sel.innerHTML = projects.map(p => `<option value="${p.id}">${esc(p.name)}</option>`).join('') || '<option>Nenhum</option>'; }); } }
+        function generateKey() {
+            const pid = document.getElementById('keyProject')?.value; if (!pid) return;
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; let k = 'OHKEY-';
+            for (let i = 0; i < 4; i++) { for (let j = 0; j < 4; j++) k += chars.charAt(Math.floor(Math.random() * chars.length)); if (i < 3) k += '-'; }
+            const proj = projects.find(p => p.id === pid);
+            keys.unshift({ id: 'key_' + Date.now(), key: k, projectId: pid, project: proj?.name||'', type: 'manual', status: 'active', hwid: null, expires: 'Nunca', createdAt: new Date().toISOString() });
+            if (proj) proj.keys = (proj.keys||0) + 1;
+            stats.generated = (stats.generated||0) + 1;
+            save(); closeModal('keyModal'); renderDashboard(); switchTab('keys', document.querySelectorAll('.sidebar-link')[2]);
+        }
 
+        function showModal(id) {
+            const m = document.getElementById(id); if (!m) return; m.classList.add('show');
+            if (id === 'keyModal') { const sel = document.getElementById('keyProject'); if (sel) sel.innerHTML = projects.map(p => `<option value="${p.id}">${esc(p.name)}</option>`).join('') || '<option>Nenhum</option>'; }
+        }
         function closeModal(id) { const m = document.getElementById(id); if (m) m.classList.remove('show'); }
 
-        function showNotification(msg, type = 'info') { const icons = { success: 'check-circle', error: 'times-circle', warning: 'exclamation-triangle', info: 'info-circle' }; const n = document.createElement('div');
-            n.className = `notification ${type}`;
-            n.innerHTML = `<i class="fas fa-${icons[type]||icons.info}"></i> ${msg}`; document.body.appendChild(n); setTimeout(() => { n.style.animation = 'slideInRight 0.3s ease reverse'; setTimeout(() => n.remove(), 300); }, 4000); }
+        function showNotification(msg, type = 'info') {
+            const icons = { success: 'check-circle', error: 'times-circle', warning: 'exclamation-triangle', info: 'info-circle' };
+            const n = document.createElement('div'); n.className = `notification ${type}`;
+            n.innerHTML = `<i class="fas fa-${icons[type]||icons.info}"></i> ${msg}`;
+            document.body.appendChild(n);
+            setTimeout(() => { n.style.animation = 'slideInRight 0.3s ease reverse'; setTimeout(() => n.remove(), 300); }, 4000);
+        }
 
-        function esc(t) { const d = document.createElement('div');
-            d.textContent = t; return d.innerHTML; }
-
+        function esc(t) { const d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
         function toggleSidebar() { document.getElementById('sidebar')?.classList.toggle('open'); }
 
-        document.addEventListener('click', function(e) { if (e.target.classList.contains('modal') && e.target.id !== 'emailSentModal') e.target.classList.remove('show'); });
-        document.addEventListener('keydown', function(e) { if (e.key === 'Escape') document.querySelectorAll('.modal.show').forEach(m => { if (m.id !== 'emailSentModal') m.classList.remove('show'); }); });
+        document.addEventListener('click', function(e) { if (e.target.classList.contains('modal')) e.target.classList.remove('show'); });
+        document.addEventListener('keydown', function(e) { if (e.key === 'Escape') document.querySelectorAll('.modal.show').forEach(m => m.classList.remove('show')); });
 
         init();
-        console.log('🔥 OhKeyGG - Sistema Linkvertise + HWID URL');
-        console.log('🔗 Fluxo: Link → Linkvertise → HWID na URL → Checkpoints → Key');
-        console.log('🚫 Anti-Share: Se HWID da URL ≠ HWID do PC → BLOQUEADO');
+        console.log('🔥 OhKeyGG - Pronto!');
+        console.log('🔗 Formato: Linkvertise → #getkey?id=X → Botão GET KEY → Key vinculada ao HWID');
     </script>
 </body>
 </html>
